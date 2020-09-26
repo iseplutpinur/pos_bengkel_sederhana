@@ -13,6 +13,7 @@ if (isset($_SESSION['admin']) || isset($_SESSION['user'])) {
             'user'        => $data[0]['username'],
             'nama'        => $data[0]['nama'],
             'pass'        => $data[0]['password'],
+            'foto'        => $data[0]['foto'],
             'level'       => $data[0]['id_level'],
             'level_title' => $data[0]['title'],
             'id'          => $data[0]['id']
@@ -34,99 +35,86 @@ if (isset($_SESSION['admin']) || isset($_SESSION['user'])) {
 ?>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?php echo $tools['page_title']; ?></title>
-    <!-- BOOTSTRAP STYLES-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLES-->
-    <link href="assets/css/custom.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-    <style>
-        body {
-            background-image: url(images/background/bg.jpg);
-            background-size: cover;
-        }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        .container {
-            margin-top: 150px;
-        }
-
-        .panel-heading {
-            text-align: center;
-        }
-
-        .panel-heading h4 {
-            font-weight: bold;
-        }
-
-        .text-putih {
-            color: #fff;
-        }
-
-        .fixed-bawah {
-            position: fixed;
-            bottom: 0;
-        }
-
-        .text-tengah {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-
+    <link rel="icon" href="user.ico">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <h2 class="mb-3 text-putih text-center">PT. AGUNG AUTOMALL JAMBI</h2>
-        <br>
-        <div class="row ">
-            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4> Silahkan Login</h4>
-                    </div>
-                    <div class="panel-body">
-                        <form method="post">
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" name="username" placeholder="Username">
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="assets/index2.html"><b>Bengkel</b>POS</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Silahkan untuk login</p>
+                <form action="" method="post">
+                    <div class="input-group mb-3">
+                        <input type="username" class="form-control" placeholder="Username" name="username">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
                             </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password">
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block" name="login">Login</button>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group mb-2">
+                            <input type="password" class="form-control" id="login-password-input" name="password" placeholder="Password">
+                            <div class="input-group-append" id="login-password-icon">
+                                <div class="input-group-text"><span class="far fa-eye-slash"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" name="login" class="btn btn-primary btn-block">Login</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
             </div>
+            <!-- /.login-card-body -->
         </div>
     </div>
+    <!-- /.login-box -->
 
-    <footer class="footer text-tengah">
-        <h5 class="text-putih">Copyright @
-            <?= $tools['copyright'] . " " . $tools['page_title']; ?>
-        </h5>
-    </footer>
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="assets/js/jquery.metisMenu.js"></script>
-    <!-- CUSTOM SCRIPTS -->
-    <script src="assets/js/custom.js"></script>
-
+    <!-- jQuery -->
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="assets/dist/js/adminlte.min.js"></script>
+    <script>
+        $('#login-password-icon').on('click', () => {
+            let login_password_input = $('#login-password-input');
+            let login_password_icon = $('#login-password-icon');
+            if (login_password_input.attr('type') == 'password') {
+                login_password_input.attr('type', 'text');
+                login_password_icon.html('<div class="input-group-text"><span class="far fa-eye"></span></div>');
+            } else if (login_password_input.attr('type') == 'text') {
+                login_password_input.attr('type', 'password');
+                login_password_icon.html('<div class="input-group-text"><span class="far fa-eye-slash"></span></div>');
+            }
+        });
+    </script>
 </body>
 
 </html>
