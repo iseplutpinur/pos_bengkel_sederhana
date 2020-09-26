@@ -220,7 +220,7 @@ if ($menus) {
                     <div class="row mb-2">
                         <?php if ($menuactive['menu'] != "") : ?>
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $menuactive['menu']; ?></h1>
+                                <h1 class="m-0 text-dark"><?php echo $menuactive['submenu']; ?></h1>
                             </div><!-- /.col -->
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">

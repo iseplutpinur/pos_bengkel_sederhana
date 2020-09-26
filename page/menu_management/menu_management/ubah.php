@@ -8,19 +8,11 @@ if (isset($_GET['id'])) {
 		$sql  = $koneksi->query("UPDATE `tb_user_menu` SET `menu_title` = '$nama', `icon` = '$icon', `menu_url` = '$url' WHERE `tb_user_menu`.`user_menu_id` = '$id'");
 
 		if ($sql) {
-			setAlert('Berhasil..! ','Data berhasil diubah..', 'success');
-			echo '
-			<script type = "text/javascript">
-				window.location.href = "' . $_baseurl . '";
-			</script>
-			';
+			setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
+			echo ' <script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
 		} else {
-			setAlert('Gagal..! ','Data gagal diubah..', 'danger');
-			echo '
-			<script type = "text/javascript">
-				window.location.href = "' . $_baseurl . '";
-			</script>
-			';
+			setAlert('Gagal..! ', 'Data gagal diubah..', 'danger');
+			echo ' <script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
 		}
 	}
 
@@ -28,7 +20,7 @@ if (isset($_GET['id'])) {
 	$sql    = $koneksi->query("SELECT * FROM `tb_user_menu` WHERE user_menu_id='$id'");
 	$tampil = $sql->fetch_assoc();
 	if (!$tampil) {
-		setAlert('Galat..! ','Fatal error id yang dikirimkan tidak terdaftar..', 'danger');
+		setAlert('Galat..! ', 'Fatal error id yang dikirimkan tidak terdaftar..', 'danger');
 		echo '
 		<script type = "text/javascript">
 			window.location.href = "' . $_baseurl . '";
@@ -36,7 +28,7 @@ if (isset($_GET['id'])) {
 		';
 	}
 } else {
-	setAlert('Galat..! ','Fatal error tidak ada id yang dikirimkan..', 'danger');
+	setAlert('Galat..! ', 'Fatal error tidak ada id yang dikirimkan..', 'danger');
 	echo '
 	<script type = "text/javascript">
 		window.location.href = "' . $_baseurl . '";
