@@ -4,50 +4,52 @@ include "config.php";
 include "functions.php";
 // ============================================================
 // cek apakah user sudah login altau belum
-if (!ceklogin($_SESSION['user'])) header('Location: ./login.php');
+// if (!ceklogin($_SESSION['user'])) header('Location: ./login.php');
 
 // Mengambil data untuk menu navigasi
 $menuactive = [
     'menu' => '',
     'submenu' => ''
 ];
+
+
 $level        = $_SESSION['user']['level'];
 $menus        = query("SELECT * FROM tb_user_menu_access 
         INNER JOIN tb_user_menu 
-        ON    tb_user_menu_access.menu_id       = tb_user_menu.user_menu_id
-        WHERE tb_user_menu_access.id_user_level = '$level'
+        ON    tb_user_menu_access.id_menu  = tb_user_menu.id_menu
+        WHERE tb_user_menu_access.id_level = '$level'
 ");
 
 if ($menus) {
     for ($i = 0; $i < count($menus); $i++) {
-        $id = $menus[$i]['menu_id'];
+        $id = $menus[$i]['id_menu'];
 
         // Mengambil data untuk sub menu
-        $menus[$i]['sub_menu'] = query("SELECT * FROM tb_user_sub_menu_access 
+        $menus[$i]['submenu'] = query("SELECT * FROM tb_user_sub_menu_access 
             INNER JOIN tb_user_sub_menu 
-            ON    tb_user_sub_menu_access.sub_menu_id   = tb_user_sub_menu.id
-            WHERE tb_user_sub_menu_access.id_user_level = '$level'
-            AND tb_user_sub_menu.menu_id='$id'
+            ON    tb_user_sub_menu_access.id_submenu   = tb_user_sub_menu.id_submenu
+            WHERE tb_user_sub_menu_access.id_level = '$level'
+            AND tb_user_sub_menu.id_menu='$id'
         ");
 
         // Mempersiapkan navigasi active dan display
         $menus[$i]['active'] = false;
-        if ($menus[$i]['sub_menu']) {
-            for ($j = 0; $j < count($menus[$i]['sub_menu']); $j++) {
+        if ($menus[$i]['submenu']) {
+            for ($j = 0; $j < count($menus[$i]['submenu']); $j++) {
 
                 // menggabungkan url menu dan sub menu supaya bisa di akses
-                $menus[$i]['sub_menu'][$j]['url_act'] = "?page=" . $menus[$i]['menu_url'] . "&submenu=" . $menus[$i]['sub_menu'][$j]['sub_menu_url'];
+                $menus[$i]['submenu'][$j]['url_act'] = "?page=" . $menus[$i]['menu_url'] . "&submenu=" . $menus[$i]['submenu'][$j]['submenu_url'];
 
                 // mencari menu dan sub menu navigasi active
-                if ($menus[$i]['menu_url'] . $menus[$i]['sub_menu'][$j]['sub_menu_url'] == ($page . $submenu)) {
-                    $display_page                        = $menus[$i]['sub_menu'][$j]['file'];
-                    $menus[$i]['sub_menu'][$j]['active'] = true;
+                if ($menus[$i]['menu_url'] . $menus[$i]['submenu'][$j]['submenu_url'] == ($page . $submenu)) {
+                    $display_page                        = $menus[$i]['submenu'][$j]['submenu_file'];
+                    $menus[$i]['submenu'][$j]['active']  = true;
                     $menus[$i]['active']                 = true;
-                    $temp['page']['title']               = $menus[$i]['sub_menu'][$j]['title'];
+                    $temp['page']['title']               = $menus[$i]['submenu'][$j]['submenu_title'];
                     $menuactive['menu']                  = $menus[$i]['menu_title'];
-                    $menuactive['submenu']               = $menus[$i]['sub_menu'][$j]['title'];
+                    $menuactive['submenu']               = $menus[$i]['submenu'][$j]['submenu_title'];
                 } else {
-                    $menus[$i]['sub_menu'][$j]['active'] = false;
+                    $menus[$i]['submenu'][$j]['active'] = false;
                 }
             }
             $menus[$i]['visible'] = true;
@@ -76,10 +78,13 @@ if ($menus) {
     <link rel="stylesheet" href="assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
+
+    <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- jQuery -->
     <script src="assets/plugins/jquery/jquery.min.js"></script>
+
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -147,7 +152,7 @@ if ($menus) {
                                         echo '
                                             <li class="nav-item has-treeview menu-open">
                                             <a href="#" class="nav-link active">
-                                                <i class="nav-icon ' . $menu["icon"] . '"></i>
+                                                <i class="nav-icon ' . $menu["menu_icon"] . '"></i>
                                                 <p>
                                                 ' . $menu["menu_title"] . '
                                                     <i class="right fas fa-angle-left"></i>
@@ -159,7 +164,7 @@ if ($menus) {
                                         echo '
                                             <li class="nav-item has-treeview">
                                             <a href="#" class="nav-link">
-                                                <i class="nav-icon ' . $menu["icon"] . '"></i>
+                                                <i class="nav-icon ' . $menu["menu_icon"] . '"></i>
                                                 <p>
                                                 ' . $menu["menu_title"] . '
                                                     <i class="fas fa-angle-left right"></i>
@@ -170,14 +175,14 @@ if ($menus) {
                                     }
 
                                     // daftar sub menu
-                                    if ($menu['sub_menu']) {
-                                        foreach ($menu['sub_menu'] as $nav_submenu) {
+                                    if ($menu['submenu']) {
+                                        foreach ($menu['submenu'] as $nav_submenu) {
                                             if ($nav_submenu['active']) {
                                                 echo '
                                                 <li class="nav-item">
                                                     <a href="' . $nav_submenu['url_act'] . '" class="nav-link active">
                                                         <i class="far fa-circle nav-icon"></i>
-                                                        <p>' . $nav_submenu['title'] . '</p>
+                                                        <p>' . $nav_submenu['submenu_title'] . '</p>
                                                     </a>
                                                 </li>
                                                 ';
@@ -186,7 +191,7 @@ if ($menus) {
                                                 <li class="nav-item">
                                                     <a href="' . $nav_submenu['url_act'] . '" class="nav-link">
                                                         <i class="far fa-circle nav-icon"></i>
-                                                        <p>' . $nav_submenu['title'] . '</p>
+                                                        <p>' . $nav_submenu['submenu_title'] . '</p>
                                                     </a>
                                                 </li>
                                                 ';
@@ -282,10 +287,9 @@ if ($menus) {
 
         <!-- Main Footer -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-            All rights reserved.
+            <strong>Copyright &copy; 2020 <a href="">Toko Mulya Utama Sejahtera</a>.</strong>
             <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.0.5
+                <b>Version</b> 1.0.0
             </div>
         </footer>
     </div>
@@ -300,10 +304,22 @@ if ($menus) {
     <!-- AdminLTE App -->
     <script src="assets/dist/js/adminlte.js"></script>
 
-    <!-- OPTIONAL SCRIPTS -->
-    <script src="assets/dist/js/demo.js"></script>
-
+    <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="assets/js/clock.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#table1').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+            });
+        });
+    </script>
 </body>
 
 </html>

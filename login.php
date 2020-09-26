@@ -10,10 +10,10 @@ if (isset($_SESSION['admin']) || isset($_SESSION['user'])) {
 
     if ($data) {
         $_SESSION['user'] = [
-            'user'        => $data[0]['username'],
-            'nama'        => $data[0]['nama'],
-            'pass'        => $data[0]['password'],
-            'foto'        => $data[0]['foto'],
+            'user'        => $data[0]['user_username'],
+            'nama'        => $data[0]['user_nama'],
+            'pass'        => $data[0]['user_password'],
+            'foto'        => $data[0]['user_foto'],
             'level'       => $data[0]['id_level'],
             'level_title' => $data[0]['title'],
             'id'          => $data[0]['id']
