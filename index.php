@@ -102,7 +102,7 @@ if ($menus) {
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <span class="nav-link">Login As: <?= $_SESSION['user']['level_title']; ?> | <span id="clockTopbar"></span></span>
-                <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
+                <a href="logout.php" class="btn btn-primary btn-md"><i class="nav-icon fas fa-sign-out-alt"></i> Logout</a>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -112,7 +112,7 @@ if ($menus) {
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
                 <img src="user.ico" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Bengkel POS</span>
+                <span class="brand-text font-weight-light">Toko MUS</span>
             </a>
 
             <!-- Sidebar -->
@@ -287,7 +287,7 @@ if ($menus) {
 
         <!-- Main Footer -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2020 <a href="">Toko Mulya Utama Sejahtera</a>.</strong>
+            <strong>Copyright &copy; <?php echo $tools['copyright']; ?> <a href=""><?php echo $tools['page_title']; ?></a>.</strong>
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.0.0
             </div>
@@ -318,6 +318,7 @@ if ($menus) {
                 "autoWidth": true,
                 "responsive": true,
             });
+            <?php if ($temp['page']['title']) echo "document.title = '" . $temp['page']['title'] . " | " . $tools['page_title'] . "';" ?>
         });
     </script>
 </body>

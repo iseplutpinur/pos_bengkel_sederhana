@@ -52,83 +52,84 @@ if (isset($_POST['simpan'])) {
 }
 ?>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Pengatuaran Aplikasi
-    </div>
-    <div class="panel-body">
-        <form method="POST" method="post" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label>Nama Perusahaan</label>
-                        <input class="form-control" name="perusahaan" id="perusahaan" value="<?php echo $_settingDetail['nama_perusahaan']['pengaturan_nilai']; ?>" required="" />
+<div class="container-fluid">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title"><?php echo $menuactive['menu'] . " " . $menuactive['submenu']; ?></h3>
+        </div> <!-- /.card-body -->
+        <div class="card-body">
+            <form method="POST" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Nama Perusahaan</label>
+                            <input class="form-control" name="perusahaan" id="perusahaan" value="<?php echo $_settingDetail['nama_perusahaan']['pengaturan_nilai']; ?>" required="" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>URL Home Default</label>
+                            <input class="form-control" name="url" id="url" value="<?php echo $_settingDetail['default_home']['pengaturan_nilai']; ?>" required="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Copyright</label>
+                            <input class="form-control" name="copyright" id="copyright" value="<?php echo $_settingDetail['tahuncopyright']['pengaturan_nilai']; ?>" required="" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>URL Home Default</label>
-                        <input class="form-control" name="url" id="url" value="<?php echo $_settingDetail['default_home']['pengaturan_nilai']; ?>" required="" />
+                <div class="row">
+                    <div class="col-md-5 pt-2">
+                        <ul class="list-group list-group-flush p-0 m-0">
+                            <li class="list-group-item p-0 m-0">
+                                Mode Pengembangan
+                                <label class="switch">
+                                    <?php if ($_settingDetail['pengembangan']['pengaturan_nilai']) : ?>
+                                        <input type="checkbox" class="primary" name="pengembangan" id="pengembangan" checked="">
+                                    <?php else : ?>
+                                        <input type="checkbox" class="primary" name="pengembangan" id="pengembangan">
+                                    <?php endif; ?>
+                                    <span class="slider round"></span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="gambar" id="gambar">
+                                <label class="custom-file-label" for="gambar">Pilih Gambar Untuk Background</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Copyright</label>
-                        <input class="form-control" name="copyright" id="copyright" value="<?php echo $_settingDetail['tahuncopyright']['pengaturan_nilai']; ?>" required="" />
-                    </div>
+                <div>
+                    <input type="submit" name="simpan" value="Ubah" class="btn btn-primary">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5">
-                    <label for="pengembangan" class="form-check-label">Pengembangan</label>
-                    <table width="100%">
-                        <tr>
-                            <td style="white-space:nowrap"><label for="pengembangan" class="form-check-label">Mode Pengembangan</label></td>
-                            <?php if ($_settingDetail['pengembangan']['pengaturan_nilai']) : ?>
-                                <td style="text-align:right;"><input type="checkbox" class="checkbox" id="pengembangan" name="pengembangan" checked=""></td>
-                            <?php else : ?>
-                                <td style="text-align:right;"><input type="checkbox" class="checkbox" id="pengembangan" name="pengembangan"></td>
-                            <?php endif; ?>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-md-7">
-                    <div class="form-group">
-                        <label for="gambar">Logo</label>
-                        <input type="file" class="file-control-file" name="gambar" id="gambar" />
-                    </div>
-                </div>
-            </div>
+            </form>
             <div class="row">
                 <div class="col-md-12">
                     <hr>
+                    <label>Keterangan</label>
+                    <br>
+                    <label>Nama peusahaan:</label>
+                    <span><?php echo $_settingDetail['nama_perusahaan']['pengaturan_deskripsi']; ?></span>
+                    <hr>
+                    <label>Url Home Default:</label>
+                    <span><?php echo $_settingDetail['default_home']['pengaturan_deskripsi']; ?></span>
+                    <hr>
+                    <label>Copyright:</label>
+                    <span><?php echo $_settingDetail['tahuncopyright']['pengaturan_deskripsi']; ?></span>
+                    <hr>
+                    <label>Mode Pengembangan:</label>
+                    <span><?php echo $_settingDetail['pengembangan']['pengaturan_deskripsi']; ?></span>
+                    <hr>
+                    <label>Logo:</label>
+                    <span><?php echo $_settingDetail['logo']['pengaturan_deskripsi']; ?></span>
+                    <hr>
                 </div>
             </div>
-            <div>
-                <input type="submit" name="simpan" value="Ubah" class="btn btn-primary">
-            </div>
-        </form>
-        <div class="row">
-            <div class="col-md-12">
-                <hr>
-                <label>Keterangan</label>
-                <br>
-                <label>Nama peusahaan:</label>
-                <span><?php echo $_settingDetail['nama_perusahaan']['pengaturan_deskripsi']; ?></span>
-                <hr>
-                <label>Url Home Default:</label>
-                <span><?php echo $_settingDetail['default_home']['pengaturan_deskripsi']; ?></span>
-                <hr>
-                <label>Copyright:</label>
-                <span><?php echo $_settingDetail['tahuncopyright']['pengaturan_deskripsi']; ?></span>
-                <hr>
-                <label>Mode Pengembangan:</label>
-                <span><?php echo $_settingDetail['pengembangan']['pengaturan_deskripsi']; ?></span>
-                <hr>
-                <label>Logo:</label>
-                <span><?php echo $_settingDetail['logo']['pengaturan_deskripsi']; ?></span>
-                <hr>
-            </div>
-        </div>
+        </div><!-- /.card-body -->
     </div>
 </div>
