@@ -22,8 +22,10 @@ if (isset($_GET['id'])) {
             INNER JOIN `tb_user_menu`
             ON `tb_user_sub_menu`.`id_menu` = `tb_user_menu`.`id_menu`
             WHERE `tb_user_sub_menu`.`id_menu`='$id_menu'");
-            foreach ($temp['hakakses'] as $t) {
-                $sub_menu_akses[] = $t;
+            if ($temp['hakakses']) {
+                foreach ($temp['hakakses'] as $t) {
+                    $sub_menu_akses[] = $t;
+                }
             }
         } else $menu_akses[$i]['akses'] = false;
     }
