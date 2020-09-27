@@ -12,7 +12,6 @@ $menuactive = [
     'submenu' => ''
 ];
 
-
 $level        = $_SESSION['user']['level'];
 $menus        = query("SELECT * FROM tb_user_menu_access 
         INNER JOIN tb_user_menu 
@@ -102,7 +101,6 @@ if ($menus) {
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <span class="nav-link">Login As: <?= $_SESSION['user']['level_title']; ?> | <span id="clockTopbar"></span></span>
-                <a href="logout.php" class="btn btn-primary btn-md"><i class="nav-icon fas fa-sign-out-alt"></i> Logout</a>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -110,7 +108,7 @@ if ($menus) {
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="" class="brand-link">
                 <img src="user.ico" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Toko MUS</span>
             </a>
@@ -130,6 +128,7 @@ if ($menus) {
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- dashboard active -->
                         <?php if ($page === "") : ?>
                             <li class="nav-item active">
                                 <a href="index.php" class="nav-link active">
@@ -137,17 +136,21 @@ if ($menus) {
                                     <p>Dashboard</p>
                                 </a>
                             </li>
+                            <!-- dashboard nonactive -->
                         <?php else : ?>
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a href="index.php" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Dashboard</p>
                                 </a>
                             </li>
                         <?php endif; ?>
+
                         <?php if ($menus) {
+                            // menentukan menu dan sub menu yang active
                             foreach ($menus as $menu) {
                                 if ($menu['visible']) {
+                                    // jika menu active
                                     if ($menu['active']) {
                                         echo '
                                             <li class="nav-item has-treeview menu-open">
@@ -205,6 +208,13 @@ if ($menus) {
                                 }
                             }
                         } ?>
+
+                        <li class="nav-item">
+                            <a href="logout.php" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>Sign Out</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -215,27 +225,29 @@ if ($menus) {
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <?php if ($menuactive['menu'] != "") : ?>
-                            <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $menuactive['submenu']; ?></h1>
-                            </div><!-- /.col -->
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><?php echo $menuactive['menu']; ?></li>
-                                    <li class="breadcrumb-item active"><?php echo $menuactive['submenu']; ?></li>
-                                </ol>
-                            </div><!-- /.col -->
-                        <?php else : ?>
-                            <div class="col-sm-6">
-                                <h1 class="m-0 text-dark">Dashboard</h1>
-                            </div><!-- /.col -->
-                        <?php endif; ?>
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
+            <section class="content-header">
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <?php if ($menuactive['menu'] != "") : ?>
+                                <div class="col-sm-6">
+                                    <h1 class="m-0 text-dark"><?php echo $menuactive['submenu']; ?></h1>
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-sm-right">
+                                        <li class="breadcrumb-item"><?php echo $menuactive['menu']; ?></li>
+                                        <li class="breadcrumb-item active"><?php echo $menuactive['submenu']; ?></li>
+                                    </ol>
+                                </div><!-- /.col -->
+                            <?php else : ?>
+                                <div class="col-sm-6">
+                                    <h1 class="m-0 text-dark">Dashboard</h1>
+                                </div><!-- /.col -->
+                            <?php endif; ?>
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+            </section>
             <!-- /.content-header -->
 
             <!-- Main content -->
@@ -244,6 +256,8 @@ if ($menus) {
                     <!-- ================================================= -->
                     <div class="row">
                         <div class="col-md-12">
+                            <!-- ================================================= -->
+                            <!-- Alert -->
                             <div class="row" id="alert_display">
                             </div>
                             <script>
@@ -265,6 +279,7 @@ if ($menus) {
                                 }
                                 <?php if ($_SESSION['alert']['show']) getAlert(); ?>
                             </script>
+                            <!-- ================================================= -->
                             <?php
                             if (file_exists($display_page)) include $display_page;
                             else include "page/error.php";
@@ -278,12 +293,6 @@ if ($menus) {
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
 
         <!-- Main Footer -->
         <footer class="main-footer">
