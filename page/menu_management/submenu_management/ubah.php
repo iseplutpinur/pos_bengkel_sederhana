@@ -1,82 +1,55 @@
 <?php
-if (isset($_GET['id'])) {
-    // menyiapkan data untuk form ubah
-    $id   = $_GET['id'];
-    $data = query("SELECT * FROM `tb_user_sub_menu` WHERE `id`='$id'");
+if (isset($_POST['simpan-ubah'])) {
+    $submenu_title = $_POST['submenu_title_ubah'];
+    $file          = $_POST['submenu_file_ubah'];
+    $url           = $_POST['submenu_url_ubah'];
+    $id_menu       = $_POST['id_menu_ubah'];
+    $id_submenu    = $_POST['id_submenu_ubah'];
 
-    if (isset($_POST['simpan'])) {
-        $nama    = $_POST['nama'];
-        $file    = $_POST['file'];
-        $url     = $_POST['url'];
-        $menu_id = $_POST['menu_id'];
+    $sql = $koneksi->query("UPDATE `tb_user_sub_menu` SET 
+              `id_menu`       = '$id_menu',
+              `submenu_title` = '$submenu_title',
+              `submenu_url`   = '$url',
+              `submenu_file`  = '$file'
+        WHERE `tb_user_sub_menu`.`id_submenu` = '$id_submenu'");
 
-        $sql = $koneksi->query("UPDATE `tb_user_sub_menu` SET 
-              `menu_id`               = '$menu_id',
-              `title`                 = '$nama',
-              `sub_menu_url`          = '$url',
-              `file`                  = '$file'
-        WHERE `tb_user_sub_menu`.`id` = '$id'");
-
-        if ($sql) {
-            setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
-            echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
-        } else {
-            setAlert('Gagal..! ', 'Data gagal diubah..', 'danger');
-            echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
-        }
+    if ($sql) {
+        echo '<script type = "text/javascript">setAlert("Berhasil..! ", "Data berhasil diubah..", "success");</script>';
+    } else {
+        echo '<script type = "text/javascript">setAlert("Gagal..! ", "Data gagal diubah..", "danger");</script>';
     }
-} else {
-    setAlert('Gagal..! ', 'Tidak ada data id yang dikirimkan..', 'danger');
-    echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
 }
 ?>
 
-<script type="text/javascript">
-    function validasi(form) {
-        if (form.nama.value == "") {
-            alert("Nama Tidak Boleh Kosong");
-            form.nama.focus();
-            return (false);
-        } else if (form.file.value == "") {
-            alert("Lokasi File Tidak Boleh Kosong");
-            form.file.focus();
-            return (false);
-        } else if (form.menu_id.value == "") {
-            alert("Menu File Tidak Boleh Kosong");
-            form.menu_id.focus();
-            return (false);
-        }
-        return (true);
-    }
-</script>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Ubah Data SubMenu Manajemen
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <form method="POST" action="" onsubmit="return validasi(this)">
+<div class="modal fade" id="modal-ubah">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Menu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nama</label>
-                                    <input class="form-control" name="nama" type="text" value="<?= $data[0]['title']; ?>" />
-                                    <input name="id" type="text" value="<?= $data[0]['id']; ?>" hidden="" />
+                                    <input class="form-control" name="submenu_title_ubah" type="text">
+                                    <input name="id_submenu_ubah" type="text" hidden>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Menu</label>
-                                    <select class="form-control" name="menu_id">
+                                    <select class="form-control" name="id_menu_ubah">
                                         <?php foreach (query("SELECT * FROM tb_user_menu") as $d) : ?>
-                                            <?php if ($data[0]['menu_id'] == $d['user_menu_id']) : ?>
-                                                <option value='<?= $d['user_menu_id']; ?>' selected=""><?php echo $d['menu_title']; ?></option>
-                                            <?php else : ?>
-                                                <option value='<?= $d['user_menu_id']; ?>'><?php echo $d['menu_title']; ?></option>
-                                            <?php endif; ?>
+                                            <option value='<?= $d['id_menu']; ?>'>
+                                                <?= $d['menu_title']; ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -86,26 +59,35 @@ if (isset($_GET['id'])) {
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Url</label>
-                                    <input class="form-control" name="url" type="text" value="<?= $data[0]['sub_menu_url']; ?>" />
+                                    <input class="form-control" name="submenu_url_ubah" type="text">
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Lokasi File </label>
-                                    <input class="form-control" name="file" type="text" value="<?= $data[0]['file']; ?>" />
+                                    <input class="form-control" name="submenu_file_ubah" type="text">
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 20px;">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                <input type="submit" name="simpan" value="Simpan" class="btn btn-primary btn-block">
-                            </div>
-                            <div class="col-md-3"></div>
-                        </div>
                     </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="submit" name="simpan-ubah" class="btn btn-primary">Ubah</button>
                 </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kembali</button>
             </div>
         </div>
+        <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
 </div>
+
+<script type="text/javascript">
+    function ubahData(data) {
+        document.querySelector('select[name=id_menu_ubah]').value = data.dataset.id_menu;
+        document.querySelector('input[name=id_submenu_ubah]').value = data.dataset.id_submenu;
+        document.querySelector('input[name=submenu_title_ubah]').value = data.dataset.submenu_title;
+        document.querySelector('input[name=submenu_url_ubah]').value = data.dataset.submenu_url;
+        document.querySelector('input[name=submenu_file_ubah]').value = data.dataset.submenu_file;
+    }
+</script>

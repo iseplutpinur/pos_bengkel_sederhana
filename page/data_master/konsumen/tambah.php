@@ -68,7 +68,7 @@ if (isset($_POST['simpan'])) {
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <form method="post" action="" onsubmit="return validasi(this)">
+                <form method="post">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

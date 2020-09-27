@@ -1,11 +1,19 @@
+<?php
+// modal
+include 'tambah.php';
+include 'ubah.php';
+include 'hapus.php';
+$data = query("SELECT * FROM tb_user_menu ORDER BY id_menu DESC");
+?>
+
 <div class="card">
     <div class="card-header d-flex justify-content-betwen">
-        <div class="p-1 flex-fill bd-highlight">
+        <div class="p-2 flex-fill bd-highlight">
             <h3 class="card-title"><?php echo $menuactive['menu'] . " " . $menuactive['submenu']; ?></h3>
         </div>
         <div class="p-1 flex-fill bd-highlight text-right">
             <?php if ($_settingDetail['pengembangan']['pengaturan_nilai']) : ?>
-                <a href="<?= $_baseurl; ?>&aksi=tambah" class="btn btn-success btn-sm m-0"><i class="fa fa-plus"></i> Tambah Data</a>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-tambah"><i class="fa fa-plus"></i> Tambah Data</button>
             <?php endif; ?>
         </div>
     </div>
@@ -24,7 +32,6 @@
                 </thead>
                 <tbody>
                     <?php $nomor = 0;
-                    $data = query("SELECT * FROM tb_user_menu ORDER BY id_menu DESC");
                     if ($data) :
                         foreach ($data as $d) : ?>
                             <tr>
@@ -35,8 +42,8 @@
                                 <td style="white-space: nowrap;">
                                     <a href="<?= $_baseurl; ?>&aksi=hakakses&id=<?= $d['id_menu']; ?>" class="btn btn-primary btn-sm"><i class="fa fa-folder"></i> Hak Akses</a>
                                     <?php if ($_settingDetail['pengembangan']['pengaturan_nilai']) : ?>
-                                        <a href="<?= $_baseurl; ?>&aksi=ubah&id=<?= $d['id_menu']; ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Ubah</a>
-                                        <a onclick="return confirm('Anda yakin ingin menghapus?')" href="<?= $_baseurl; ?>&aksi=hapus&id=<?= $d['id_menu']; ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
+                                        <bottom class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-ubah" data-id_menu="<?= $d['id_menu']; ?>" data-menu_title="<?= $d['menu_title']; ?>" data-menu_url="<?= $d['menu_url']; ?>" data-menu_icon="<?= $d['menu_icon']; ?>" onclick="ubahData(this)"><i class="fa fa-edit"></i> Ubah</bottom>
+                                        <bottom class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-hapus" data-id_menu="<?= $d['id_menu']; ?>" data-menu_title="<?= $d['menu_title']; ?>" onclick="hapusData(this)"><i class="fa fa-trash"></i> Hapus</bottom>
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -46,5 +53,4 @@
             </table>
         </div>
     </div>
-    <!-- /.card-body -->
 </div>

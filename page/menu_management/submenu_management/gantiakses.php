@@ -5,7 +5,8 @@ if (isset($_GET['id_level']) && isset($_GET['id_menu']) && isset($_GET['status']
     $id_level = $_GET['id_level'];
     if ($status) {
         // menghapus akses
-        $sql  = $koneksi->query("DELETE FROM `tb_user_sub_menu_access` WHERE `tb_user_sub_menu_access`.`sub_menu_id` = '$id_menu' AND `tb_user_sub_menu_access`.`id_user_level` = '$id_level'");
+        var_dump("DELETE FROM `tb_user_sub_menu_access` WHERE `tb_user_sub_menu_access`.`id_submenu` = '$id_menu' AND `tb_user_sub_menu_access`.`id_level` = '$id_level'");
+        $sql  = $koneksi->query("DELETE FROM `tb_user_sub_menu_access` WHERE `tb_user_sub_menu_access`.`id_submenu` = '$id_menu' AND `tb_user_sub_menu_access`.`id_level` = '$id_level'");
         if ($sql) {
             setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
             echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '&aksi=hakakses&id=' . $id_menu . '";</script>';
@@ -15,7 +16,7 @@ if (isset($_GET['id_level']) && isset($_GET['id_menu']) && isset($_GET['status']
         }
     } else {
         // menambah akses
-        $sql  = $koneksi->query("INSERT INTO `tb_user_sub_menu_access` (`id`, `sub_menu_id`, `id_user_level`) VALUES (NULL, '$id_menu', '$id_level')");
+        $sql  = $koneksi->query("INSERT INTO `tb_user_sub_menu_access` (`id_submenu`, `id_level`) VALUES ('$id_menu', '$id_level')");
         if ($sql) {
             setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
             echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '&aksi=hakakses&id=' . $id_menu . '";</script>';

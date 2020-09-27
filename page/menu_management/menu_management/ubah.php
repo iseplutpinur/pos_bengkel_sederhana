@@ -1,72 +1,37 @@
 <?php
-if (isset($_GET['id'])) {
-	if (isset($_POST['simpan'])) {
-		$id   = $_POST['id'];
-		$nama = $_POST['nama'];
-		$icon = $_POST['icon'];
-		$url  = $_POST['url'];
-		$sql  = $koneksi->query("UPDATE `tb_user_menu` SET `menu_title` = '$nama', `icon` = '$icon', `menu_url` = '$url' WHERE `tb_user_menu`.`user_menu_id` = '$id'");
+if (isset($_POST['simpan-ubah'])) {
+	$id_ubah    = $_POST['id_menu_ubah'];
+	$menu_title = $_POST['menu_title_ubah'];
+	$menu_icon  = $_POST['menu_icon_ubah'];
+	$menu_url   = $_POST['menu_url_ubah'];
+	$sql        = $koneksi->query("UPDATE `tb_user_menu` SET `menu_title` = '$menu_title', `menu_icon` = '$menu_icon', `menu_url` = '$menu_url' WHERE `tb_user_menu`.`id_menu` = '$id_ubah'");
 
-		if ($sql) {
-			setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
-			echo ' <script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
-		} else {
-			setAlert('Gagal..! ', 'Data gagal diubah..', 'danger');
-			echo ' <script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
-		}
+	if ($sql) {
+		echo '<script type = "text/javascript">setAlert("Berhasil..! ", "Data berhasil diubah..", "success");</script>';
+	} else {
+		echo '<script type = "text/javascript">setAlert("Gagal..! ", "Data gagal diubah..", "danger");</script>';
 	}
-
-	$id     = $_GET['id'];
-	$sql    = $koneksi->query("SELECT * FROM `tb_user_menu` WHERE user_menu_id='$id'");
-	$tampil = $sql->fetch_assoc();
-	if (!$tampil) {
-		setAlert('Galat..! ', 'Fatal error id yang dikirimkan tidak terdaftar..', 'danger');
-		echo '
-		<script type = "text/javascript">
-			window.location.href = "' . $_baseurl . '";
-		</script>
-		';
-	}
-} else {
-	setAlert('Galat..! ', 'Fatal error tidak ada id yang dikirimkan..', 'danger');
-	echo '
-	<script type = "text/javascript">
-		window.location.href = "' . $_baseurl . '";
-	</script>
-	';
 }
 ?>
 
-<script type="text/javascript">
-	function validasi(form) {
-		if (form.nama.value == "") {
-			alert("Nama Tidak Boleh Kosong");
-			form.nama.focus();
-			return (false);
-		} else if (form.icon.value == "") {
-			alert("Icon Tidak Boleh Kosong");
-			form.icon.focus();
-			return (false);
-		}
-		return (true);
-	}
-</script>
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-		Tambah Data Menu Manajemen
-	</div>
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-md-12">
-				<form method="POST" action="" onsubmit="return validasi(this)">
-					<input type="text" name="id" value="<?= $tampil['user_menu_id']; ?>" hidden="">
+<div class="modal fade" id="modal-ubah">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Ubah Menu</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form method="POST">
+					<input type="text" name="id_menu_ubah" value="" hidden="" required="">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Nama</label>
-									<input class="form-control" name="nama" type="text" value="<?= $tampil['menu_title']; ?>" />
+									<input class="form-control" name="menu_title_ubah" type="text" value="" required="">
 								</div>
 							</div>
 						</div>
@@ -74,26 +39,33 @@ if (isset($_GET['id'])) {
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Url</label>
-									<input class="form-control" name="url" type="text" value="<?= $tampil['menu_url']; ?>" />
+									<input class="form-control" name="menu_url_ubah" type="text" value="" required="">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Icon </label>
-									<input class="form-control" name="icon" type="text" value="<?= $tampil['icon']; ?>" />
+									<input class="form-control" name="menu_icon_ubah" type="text" value="" required="">
 								</div>
 							</div>
 						</div>
-						<div class="row" style="margin-bottom: 20px;">
-							<div class="col-md-3"></div>
-							<div class="col-md-6">
-								<input type="submit" name="simpan" value="Ubah" class="btn btn-primary btn-block">
-							</div>
-							<div class="col-md-3"></div>
-						</div>
 					</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<input type="submit" name="simpan-ubah" value="Ubah" class="btn btn-primary">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kembali</button>
 				</form>
 			</div>
 		</div>
+		<!-- /.modal-content -->
 	</div>
+	<!-- /.modal-dialog -->
 </div>
+<script type="text/javascript">
+	function ubahData(data) {
+		document.querySelector('input[name=id_menu_ubah]').value = data.dataset.id_menu;
+		document.querySelector('input[name=menu_title_ubah]').value = data.dataset.menu_title;
+		document.querySelector('input[name=menu_url_ubah]').value = data.dataset.menu_url;
+		document.querySelector('input[name=menu_icon_ubah]').value = data.dataset.menu_icon;
+	}
+</script>

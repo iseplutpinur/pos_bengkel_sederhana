@@ -1,16 +1,44 @@
 <?php
-if (isset($_GET['id'])) {
-	$id = $_GET['id'];
-	$koneksi->query("DELETE FROM `tb_user_menu` WHERE `tb_user_menu`.`user_menu_id` = '$id'");
+if (isset($_POST['simpan-hapus'])) {
+	$id_menu = $_POST['id_menu_hapus'];
+	$koneksi->query("DELETE FROM `tb_user_menu` WHERE `tb_user_menu`.`id_menu` = '$id_menu'");
 
 	if (mysqli_errno($koneksi) == 0) {
-		setAlert('Berhasil..! ', 'Data berhasil dihapus..', 'success');
-		echo '<script type="text/javascript"> window.location.href = "' . $_baseurl . '"; </script> ';
-	} else if (mysqli_errno($koneksi) == 1451) {
-		setAlert('Gagal..! ', 'Data gagal hapus.. Menu ini digunakan oleh SubMenu lain..', 'danger');
-		echo '<script type="text/javascript"> window.location.href = "' . $_baseurl . '"; </script> ';
+		echo '<script type = "text/javascript">setAlert("Berhasil..! ", "Data berhasil dihapus..", "success");</script>';
+	} else {
+		echo '<script type = "text/javascript">setAlert("Gagal..! ", "Data gagal dihapus..", "danger");</script>';
 	}
-} else {
-	setAlert('Galat..! ', 'Fatal error tidak ada id yang dikirimkan..', 'danger');
-	echo '<script type="text/javascript"> window.location.href = "' . $_baseurl . '"; </script> ';
 }
+?>
+
+<div class="modal fade" id="modal-hapus" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content bg-danger">
+			<div class="modal-header">
+				<h4 class="modal-title">Hapus Menu</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h3 id="menu_title_hapus"></h3>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<form method="POST">
+					<input type="text" name="id_menu_hapus" value="" hidden="">
+					<button type="submit" class="btn btn-outline-light" name="simpan-hapus">Hapus</button>
+				</form>
+				<button type="button" class="btn btn-outline-light" data-dismiss="modal">Kembali</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<script>
+	function hapusData(data) {
+		document.querySelector('input[name=id_menu_hapus]').value = data.dataset.id_menu;
+		document.querySelector('#menu_title_hapus').innerHTML = `Apakah anda yakin akan menghapus menu <b>${data.dataset.menu_title}</b>`;
+	}
+</script>

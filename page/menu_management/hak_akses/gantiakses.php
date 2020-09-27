@@ -26,7 +26,7 @@ if (isset($_GET['id_level']) && isset($_GET['id_menu']) && isset($_GET['status']
             }
         } else {
             // menambah akses
-            $sql  = $koneksi->query("INSERT INTO `tb_user_menu_access` (`id_menu_access`, `id_menu`, `id_level`) VALUES (NULL, '$id_menu', '$id_level')");
+            $sql  = $koneksi->query("INSERT INTO `tb_user_menu_access` (`id_menu`, `id_level`) VALUES ('$id_menu', '$id_level')");
             if ($sql) {
                 setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
                 echo '
@@ -64,7 +64,7 @@ if (isset($_GET['id_level']) && isset($_GET['id_menu']) && isset($_GET['status']
             }
         } else {
             // menambah akses
-            $sql = $koneksi->query("INSERT INTO `tb_user_sub_menu_access` (`id_submenu_access`, `id_submenu`, `id_level`) VALUES (NULL, '$id_menu', '$id_level')");
+            $sql = $koneksi->query("INSERT INTO `tb_user_sub_menu_access` (`id_submenu`, `id_level`) VALUES ('$id_menu', '$id_level')");
             if ($sql) {
                 setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
                 echo '
