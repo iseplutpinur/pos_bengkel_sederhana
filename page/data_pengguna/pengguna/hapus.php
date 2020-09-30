@@ -5,8 +5,8 @@ if (isset($_POST['simpan-hapus'])) {
 	$koneksi->query("DELETE FROM `tb_user` WHERE `tb_user`.`id_user` = '$id_user'");
 
 	if (mysqli_errno($koneksi) == 0) {
-		if (file_exists("images/user_profile/$user_foto")) {
-			unlink("images/user_profile/$user_foto");
+		if (file_exists("assets/images/user_profile/$user_foto")) {
+			unlink("assets/images/user_profile/$user_foto");
 		}
 		echo '<script type = "text/javascript">setAlert("Berhasil..! ", "Data berhasil dihapus..", "success");</script>';
 	} else {
