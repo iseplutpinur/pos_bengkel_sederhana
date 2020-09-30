@@ -26,7 +26,7 @@ if (isset($_POST['simpan_tambah'])) {
                             <form method="POST">
                                 <div class="form-group">
                                     <label>Nama Kategori</label>
-                                    <input class="form-control" name="kategori" id="kategori" required="" />
+                                    <input class="form-control" name="kategori" id="kategori" required="">
                                     <span><i>Nama tidak boleh sama denga yang sudah ada</i></span>
                                 </div>
                         </div>

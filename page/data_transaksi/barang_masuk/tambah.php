@@ -42,7 +42,7 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Qty</label>
-												<input class="form-control" type="number" value="0" name="qty_tambah" id="qty_tambah" min="1" />
+												<input class="form-control" type="number" value="0" name="qty_tambah" id="qty_tambah" min="1">
 											</div>
 										</div>
 										<div class="col-md-4">
@@ -54,7 +54,7 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Harga</label>
-												<input class="form-control" type="number" name="harga_tambah" id="harga_tambah" readonly />
+												<input class="form-control" type="number" name="harga_tambah" id="harga_tambah" readonly>
 											</div>
 										</div>
 									</div>
@@ -63,14 +63,14 @@
 											<div class="form-group">
 												<div class="form-group">
 													<label>Total harga</label>
-													<input class="form-control" type="number" name="Total_harga_tambah" id="total_harga_tambah" readonly />
+													<input class="form-control" type="number" name="Total_harga_tambah" id="total_harga_tambah" readonly>
 												</div>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Tanggal</label>
-												<input class="form-control" type="text" name="tgl_tambah" value="<?= date("yy-m-d"); ?>" readonly />
+												<input class="form-control" type="text" name="tgl_tambah" value="<?= date("yy-m-d"); ?>" readonly>
 											</div>
 										</div>
 									</div>
@@ -78,13 +78,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Kode transaksi</label>
-												<input class="form-control" type="text" name="kode_transaksi_tambah" readonly value="<?= date("yy-m-d-") . uniqid(); ?>" />
+												<input class="form-control" type="text" name="kode_transaksi_tambah" readonly value="<?= date("yy-m-d-") . uniqid(); ?>">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Kode barang</label>
-												<input class="form-control" type="text" name="kode_barang_tambah" id="kode_barang_tambah" readonly />
+												<input class="form-control" type="text" name="kode_barang_tambah" id="kode_barang_tambah" readonly>
 											</div>
 										</div>
 									</div>

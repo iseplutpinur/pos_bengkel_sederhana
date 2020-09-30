@@ -14,7 +14,7 @@
                                    <form method="POST">
                                         <div class="form-group">
                                              <div id="pengadaan_hapus"></div>
-                                             <input hidden="" name="id_barang_masuk_hapus" id="id_barang_masuk_hapus" />
+                                             <input hidden="" name="id_barang_masuk_hapus" id="id_barang_masuk_hapus">
                                         </div>
                               </div>
                          </div>

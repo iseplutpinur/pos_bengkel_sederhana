@@ -26,19 +26,19 @@ if (isset($_GET['id_user'])) {
             }
             $sql = $koneksi->query("update  tb_user set username='$username', password='$pass', nama='$nama', foto='$namaFileBaru', id_level='$level' where id='$id'");
             if ($sql) {
-                setAlert('Berhasil..! ','Data berhasil diubah..', 'success');
+                setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
                 echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
             } else {
-                setAlert('Gagal..! ','Data gagal diubah..', 'success');
+                setAlert('Gagal..! ', 'Data gagal diubah..', 'success');
                 echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
             }
         } else {
             $sql = $koneksi->query("update  tb_user set username='$username', password='$pass', nama='$nama', id_level='$level' where id='$id'");
             if ($sql) {
-                setAlert('Berhasil..! ','Data berhasil diubah..', 'success');
+                setAlert('Berhasil..! ', 'Data berhasil diubah..', 'success');
                 echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
             } else {
-                setAlert('Gagal..! ','Data gagal diubah..', 'success');
+                setAlert('Gagal..! ', 'Data gagal diubah..', 'success');
                 echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
             }
         }
@@ -84,7 +84,7 @@ if (isset($_GET['id_user'])) {
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
-                                        <input class="form-control" name="nama" id="nama" value="<?php echo $data['nama']; ?>" />
+                                        <input class="form-control" name="nama" id="nama" value="<?php echo $data['nama']; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -103,13 +103,13 @@ if (isset($_GET['id_user'])) {
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Username</label>
-                                        <input class="form-control" name="username" type="text" id="username" value="<?php echo $data['username']; ?>" />
+                                        <input class="form-control" name="username" type="text" id="username" value="<?php echo $data['username']; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input class="form-control" name="pass" type="password" id="pass" value="<?php echo $data['password']; ?>" />
+                                        <input class="form-control" name="pass" type="password" id="pass" value="<?php echo $data['password']; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +128,7 @@ if (isset($_GET['id_user'])) {
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ganti Foto </label>
-                                        <input type="file" name="foto" id="foto" accept="image/*" />
+                                        <input type="file" name="foto" id="foto" accept="image/*">
                                         <span><i>Ukuran file maksimal 2000 Kb</i></span>
                                     </div>
                                 </div>

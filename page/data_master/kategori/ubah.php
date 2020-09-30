@@ -28,8 +28,8 @@ if (isset($_POST['simpan_ubah'])) {
 							<form method="POST">
 								<div class="form-group">
 									<label>Nama Kategori</label>
-									<input class="form-control" name="kategori" id="kategori_ubah" required="" />
-									<input hidden="" name="id_kategori" id="id_kategori_ubah" required="" />
+									<input class="form-control" name="kategori" id="kategori_ubah" required="">
+									<input hidden="" name="id_kategori" id="id_kategori_ubah" required="">
 									<span><i>Nama tidak boleh sama denga yang sudah ada</i></span>
 								</div>
 						</div>

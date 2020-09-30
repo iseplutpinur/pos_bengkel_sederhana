@@ -63,19 +63,19 @@ if (isset($_POST['simpan'])) {
                     <div class="col-md-5">
                         <div class="form-group">
                             <label>Nama Perusahaan</label>
-                            <input class="form-control" name="perusahaan" id="perusahaan" value="<?php echo $_settingDetail['nama_perusahaan']['pengaturan_nilai']; ?>" required="" />
+                            <input class="form-control" name="perusahaan" id="perusahaan" value="<?php echo $_settingDetail['nama_perusahaan']['pengaturan_nilai']; ?>" required="">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>URL Home Default</label>
-                            <input class="form-control" name="url" id="url" value="<?php echo $_settingDetail['default_home']['pengaturan_nilai']; ?>" required="" />
+                            <input class="form-control" name="url" id="url" value="<?php echo $_settingDetail['default_home']['pengaturan_nilai']; ?>" required="">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Copyright</label>
-                            <input class="form-control" name="copyright" id="copyright" value="<?php echo $_settingDetail['tahuncopyright']['pengaturan_nilai']; ?>" required="" />
+                            <input class="form-control" name="copyright" id="copyright" value="<?php echo $_settingDetail['tahuncopyright']['pengaturan_nilai']; ?>" required="">
                         </div>
                     </div>
                 </div>

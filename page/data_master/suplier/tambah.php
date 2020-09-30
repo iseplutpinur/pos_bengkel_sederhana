@@ -58,19 +58,19 @@ if (isset($_POST['simpan'])) {
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nama Suplier</label>
-                                <input class="form-control" type="text" name="nama" id="nama" />
+                                <input class="form-control" type="text" name="nama" id="nama">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>No Telepon</label>
-                                <input class="form-control" type="tel" name="no_telepon" id="no_telepon" />
+                                <input class="form-control" type="tel" name="no_telepon" id="no_telepon">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Kode Suplier</label>
-                                <input class="form-control" name="kode_suplier" id="kode_suplier" required="" readonly="" value="<?= date("yy-m-d-") . uniqid(); ?>" />
+                                <input class="form-control" name="kode_suplier" id="kode_suplier" required="" readonly="" value="<?= date("yy-m-d-") . uniqid(); ?>">
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ if (isset($_POST['simpan'])) {
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tanggal Daftar</label>
-                                        <input class="form-control" type="date" name="tgl_daftar" id="tgl_daftar" value="<?= date("yy-m-d"); ?>" />
+                                        <input class="form-control" type="date" name="tgl_daftar" id="tgl_daftar" value="<?= date("yy-m-d"); ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-8">

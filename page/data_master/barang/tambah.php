@@ -77,19 +77,19 @@ $kategori = query("SELECT * FROM tb_barang_kategori");
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nama barang</label>
-                                    <input class="form-control" name="nama_barang" id="nama_barang" required="" />
+                                    <input class="form-control" name="nama_barang" id="nama_barang" required="">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Harga Beli</label>
-                                    <input class="form-control" type="number" name="harga_beli" id="harga_beli" required="" />
+                                    <input class="form-control" type="number" name="harga_beli" id="harga_beli" required="">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Harga Jual</label>
-                                    <input class="form-control is-invalid" type="number" name="harga_jual" id="harga_jual" required="" />
+                                    <input class="form-control is-invalid" type="number" name="harga_jual" id="harga_jual" required="">
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@ $kategori = query("SELECT * FROM tb_barang_kategori");
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Kode Barang</label>
-                                    <input class="form-control" name="kode_barang" id="kode_barang" required="" readonly="" value="<?= date("yy-m-d-") . uniqid(); ?>" />
+                                    <input class="form-control" name="kode_barang" id="kode_barang" required="" readonly="" value="<?= date("yy-m-d-") . uniqid(); ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -115,13 +115,13 @@ $kategori = query("SELECT * FROM tb_barang_kategori");
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Tanggal Daftar</label>
-                                    <input class="form-control" readonly="" type="date" name="tgl_daftar" id="tgl_daftar" value="<?= date("yy-m-d"); ?>" />
+                                    <input class="form-control" readonly="" type="date" name="tgl_daftar" id="tgl_daftar" value="<?= date("yy-m-d"); ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="gambar">Gambar</label>
-                                    <input type="file" class="file-control-file" name="gambar" id="gambar" required="" />
+                                    <input type="file" class="file-control-file" name="gambar" id="gambar" required="">
                                 </div>
                             </div>
                         </div>

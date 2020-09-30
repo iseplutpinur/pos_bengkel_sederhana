@@ -26,19 +26,19 @@ if (isset($_POST['simpan'])) {
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Nama Perusahaan</label>
-                            <input class="form-control" name="perusahaan" id="perusahaan" value="<?php echo $print['header']['judul']; ?>" required="" />
+                            <input class="form-control" name="perusahaan" id="perusahaan" value="<?php echo $print['header']['judul']; ?>" required="">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Nama Jabatan</label>
-                            <input class="form-control" name="jabatan" id="jabatan" value="<?php echo $print['footer']['jabatan']; ?>" required="" />
+                            <input class="form-control" name="jabatan" id="jabatan" value="<?php echo $print['footer']['jabatan']; ?>" required="">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Nama Pejabat</label>
-                            <input class="form-control" name="pejabat" id="pejabat" value="<?php echo $print['footer']['nama']; ?>" required="" />
+                            <input class="form-control" name="pejabat" id="pejabat" value="<?php echo $print['footer']['nama']; ?>" required="">
                         </div>
                     </div>
                 </div>

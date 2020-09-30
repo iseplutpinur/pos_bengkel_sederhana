@@ -1,53 +1,54 @@
 <?php
+include 'tambah.php';
+include 'ubah.php';
+include 'hapus.php';
 $user_level = query("SELECT * FROM `tb_user_level`");
 ?>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Level
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col">
-                <div class="container-fluid">
-                    <div class="table-responsive">
-                        <div>
-                            <a href="<?= $_baseurl; ?>&aksi=tambah" class="btn btn-success" style="margin-top:  8px;"><i class="fa fa-plus"></i> Tambah Data</a>
-                        </div><br>
-                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                            <thead>
-                                <tr>
-                                    <th style="text-align:center;" width="25px">No</th>
-                                    <th style="text-align:center;">Nama Level</th>
-                                    <th style="text-align:center;" width="120px;">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $nomor = 0;
-                                foreach ($user_level as $u_level) : ?>
-                                    <tr>
-                                        <td style="text-align:center;">
-                                            <?php echo ++$nomor; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $u_level['title']; ?>
-                                        </td>
-                                        <td style="white-space:nowrap;">
-                                            <a href="<?= $_baseurl; ?>&aksi=ubah&id=<?php echo $u_level['id_level']; ?>" class="btn btn-warning"><i class="fa fa-edit"></i> Ubah</a>
-                                            <a onclick="return confirm('Anda yakin ingin menghapus?')" href="<?= $_baseurl; ?>&aksi=hapus&id=<?php echo $u_level['id_level']; ?>" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<div class="card">
+    <div class="card-header">
+        <div class="mt-3 flex-fill bd-highlight">
+            <h3 class="card-title"><?php echo $menuactive['menu'] . " " . $menuactive['submenu']; ?></h3>
+        </div>
+        <div class="mb-3 flex-fill bd-highlight text-right">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-tambah"><i class="fa fa-plus"></i> Tambah Data</button>
         </div>
     </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="table1" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align:center;" width="25px">No</th>
+                    <th style="text-align:center;">Nama Level</th>
+                    <th style="text-align:center;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $nomor = 0;
+                foreach ($user_level as $u_level) : ?>
+                    <tr>
+                        <td style="text-align:center;">
+                            <?php echo ++$nomor; ?>
+                        </td>
+                        <td>
+                            <?php echo $u_level['level_title']; ?>
+                        </td>
+                        <td style="white-space:nowrap">
+                            <bottom class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-ubah" data-level_title="<?= $u_level['level_title']; ?>" data-id_level="<?= $u_level['id_level']; ?>" onclick="ubahData(this)"><i class="fa fa-edit"></i> Ubah</bottom>
+                            <bottom class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-hapus" data-id_level="<?= $u_level['id_level']; ?>" data-level_title="<?= $u_level['level_title']; ?>" onclick="hapusData(this)"><i class="fa fa-trash"></i> Hapus</bottom>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th style="text-align:center;" width="25px">No</th>
+                    <th style="text-align:center;">Nama Level</th>
+                    <th style="text-align:center;" width="120px;">Aksi</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
 </div>
-<script>
-    function gantiHakAkses(id_level, id_menu, status) {
-        window.location.href = `<?= $_baseurl; ?>&aksi=gantiakses&id_level=${id_level}&id_menu=${id_menu}&status=${status}`;
-    }
-</script>

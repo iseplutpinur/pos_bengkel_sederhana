@@ -6,7 +6,8 @@ if (isset($_SESSION['admin']) || isset($_SESSION['user'])) {
 } else if (isset($_POST['login'])) {
     $nama = $_POST['username'];
     $pass = $_POST['password'];
-    $data = query("SELECT * FROM `tb_user` INNER JOIN `tb_user_level` ON `tb_user`.`id_level` = `tb_user_level`.`id_level` WHERE `username`='$nama' AND `password`='$pass'");
+
+    $data = query("SELECT * FROM `tb_user` INNER JOIN `tb_user_level` ON `tb_user`.`id_level` = `tb_user_level`.`id_level` WHERE `user_username`='$nama'");
 
     if ($data) {
         $_SESSION['user'] = [
@@ -15,8 +16,8 @@ if (isset($_SESSION['admin']) || isset($_SESSION['user'])) {
             'pass'        => $data[0]['user_password'],
             'foto'        => $data[0]['user_foto'],
             'level'       => $data[0]['id_level'],
-            'level_title' => $data[0]['title'],
-            'id'          => $data[0]['id']
+            'id'          => $data[0]['id_user'],
+            'level_title' => $data[0]['level_title']
         ];
 
         $_SESSION['alert']['title'] = "";

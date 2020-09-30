@@ -67,11 +67,11 @@ $suplier = query('SELECT `barang_suplier_nama`,`id_barang_suplier` FROM tb_baran
                                 <div id="tanggal_tabel">
                                     <div class="form-group">
                                         <label>Dari Tanggal</label>
-                                        <input class="form-control" type="date" name="tanggal_dari" id="tanggal_dari" value="<?= date("yy-m-d"); ?>" />
+                                        <input class="form-control" type="date" name="tanggal_dari" id="tanggal_dari" value="<?= date("yy-m-d"); ?>">
                                     </div>
                                     <div class="form-group">
                                         <label>Sampai Tanggal</label>
-                                        <input class="form-control" type="date" name="tanggal_sampai" id="tanggal_sampai" value="<?= date("yy-m-d"); ?>" />
+                                        <input class="form-control" type="date" name="tanggal_sampai" id="tanggal_sampai" value="<?= date("yy-m-d"); ?>">
                                     </div>
                                     <hr>
                                 </div>

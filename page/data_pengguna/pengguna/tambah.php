@@ -15,10 +15,10 @@ if (isset($_POST['simpan'])) {
 
     $sql = $koneksi->query("INSERT INTO `tb_user` (`id`, `username`, `password`, `nama`, `foto`, `id_level`) VALUES (NULL, '$username', '$pass', '$nama', '$namaFileBaru', '$level')");
     if ($sql) {
-        setAlert('Berhasil..! ','Data berhasil ditambahkan..', 'success');
+        setAlert('Berhasil..! ', 'Data berhasil ditambahkan..', 'success');
         echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
     } else {
-        setAlert('Gagal..! ','Data gagal ditambahkan..', 'success');
+        setAlert('Gagal..! ', 'Data gagal ditambahkan..', 'success');
         echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
     }
 }
@@ -62,7 +62,7 @@ if (isset($_POST['simpan'])) {
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
-                                        <input class="form-control" name="nama" id="nama" value="" required="" />
+                                        <input class="form-control" name="nama" id="nama" value="" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -81,13 +81,13 @@ if (isset($_POST['simpan'])) {
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Username</label>
-                                        <input class="form-control" name="username" type="text" id="username" value="" required="" />
+                                        <input class="form-control" name="username" type="text" id="username" value="" required="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input class="form-control" name="pass" type="password" id="pass" value="" required="" />
+                                        <input class="form-control" name="pass" type="password" id="pass" value="" required="">
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@ if (isset($_POST['simpan'])) {
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Pilih Foto </label>
-                                        <input type="file" name="foto" id="foto" accept="image/*" required="" />
+                                        <input type="file" name="foto" id="foto" accept="image/*" required="">
                                         <span><i>Ukuran file maksimal 2000 Kb</i></span>
                                     </div>
                                 </div>

@@ -30,7 +30,7 @@ if (isset($_POST['simpan-tambah'])) {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nama</label>
-                                    <input class="form-control" name="submenu_title" type="text" />
+                                    <input class="form-control" name="submenu_title" type="text">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -50,13 +50,13 @@ if (isset($_POST['simpan-tambah'])) {
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Url</label>
-                                    <input class="form-control" name="submenu_url" type="text" />
+                                    <input class="form-control" name="submenu_url" type="text">
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Lokasi File </label>
-                                    <input class="form-control" name="submenu_file" type="text" />
+                                    <input class="form-control" name="submenu_file" type="text">
                                 </div>
                             </div>
                         </div>

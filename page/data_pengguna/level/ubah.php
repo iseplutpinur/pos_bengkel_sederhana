@@ -1,41 +1,46 @@
 <?php
-if (isset($_GET['id'])) {
-	$id_level = $_GET['id'];
-	$sql      = $koneksi->query("SELECT * FROM `tb_user_level` WHERE `id_level`='$id_level'");
-	$tampil   = $sql->fetch_assoc();
+if (isset($_POST['simpan-ubah'])) {
+	$level_title = $_POST['level_title_ubah'];
+	$id_level = $_POST['id_level_ubah'];
+	$sql  = $koneksi->query("UPDATE `tb_user_level` SET `level_title` = '$level_title' WHERE `tb_user_level`.`id_level` = '$id_level'");
 
-	if (isset($_POST['simpan'])) {
-		$nama = $_POST['nama'];
-		$sql  = $koneksi->query("UPDATE `tb_user_level` SET `title` = '$nama' WHERE `tb_user_level`.`id_level` = '$id_level'");
-
-		if ($sql) {
-			setAlert('Berhasil..! ','Data berhasil diubah..', 'success');
-			echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
-		} else {
-			setAlert('Gagal..! ','Data gagal diubah..', 'success');
-			echo '<script type = "text/javascript">window.location.href = "' . $_baseurl . '";</script>';
-		}
-	}
+	if ($sql)  echo '<script type = "text/javascript"> setAlert("Berhasil..! ", "Data berhasil diubah..", "success");</script>';
+	else echo '<script type = "text/javascript">setAlert("Gagal..! ", "Data gagal diubah..", "danger");</script>';
 }
 ?>
 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		Ubah Data
-	</div>
-	<div class="panel-body">
-		<div class="row">
-			<div class="col-md-12">
+<div class="modal fade" id="modal-ubah">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Ubah Menu</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
 				<form method="POST">
-					<div class="form-group">
-						<label>Kategori Barang</label>
-						<input class="form-control" name="nama" value="<?php echo $tampil['title']; ?>" />
+					<div class="container-fluid">
+						<div class="form-group">
+							<label>Nama Level</label>
+							<input class="form-control" name="level_title_ubah">
+							<input hidden="" name="id_level_ubah">
+						</div>
 					</div>
-					<div>
-						<input type="submit" name="simpan" value="Ubah" class="btn btn-primary">
-					</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="submit" name="simpan-ubah" class="btn btn-primary">Ubah</button>
 				</form>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Kembali</button>
 			</div>
 		</div>
+		<!-- /.modal-content -->
 	</div>
+	<!-- /.modal-dialog -->
 </div>
+<script type="text/javascript">
+	function ubahData(data) {
+		document.querySelector('input[name=id_level_ubah]').value = data.dataset.id_level;
+		document.querySelector('input[name=level_title_ubah]').value = data.dataset.level_title;
+	}
+</script>

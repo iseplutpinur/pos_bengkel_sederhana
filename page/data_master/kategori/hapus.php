@@ -27,7 +27,7 @@ if (isset($_POST['simpan_hapus'])) {
 								<div class="form-group">
 									<h5>Yakin Akan Menghapus Data <strong id="kategori_hapus"></strong> ..?</h5>
 									<span><i class="text-danger">Data barang dengan kategori ini akan ikut terhapus</i></span>
-									<input hidden="" name="id_kategori" id="id_kategori_hapus" required="" />
+									<input hidden="" name="id_kategori" id="id_kategori_hapus" required="">
 								</div>
 						</div>
 					</div>

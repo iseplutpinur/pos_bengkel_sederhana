@@ -122,20 +122,20 @@ if (isset($_GET['id'])) {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nama barang</label>
-                                    <input class="form-control" name="nama_barang" value="<?php echo $tampil['data']['barang_data_nama']; ?>" />
-                                    <input hidden="" name="id_barang" value="<?php echo $tampil['data']['id_barang_data']; ?>" />
+                                    <input class="form-control" name="nama_barang" value="<?php echo $tampil['data']['barang_data_nama']; ?>">
+                                    <input hidden="" name="id_barang" value="<?php echo $tampil['data']['id_barang_data']; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Harga Beli</label>
-                                    <input class="form-control" name="harga_beli" value="<?php echo $tampil['data']['barang_data_harga_beli']; ?>" />
+                                    <input class="form-control" name="harga_beli" value="<?php echo $tampil['data']['barang_data_harga_beli']; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Harga Jual</label>
-                                    <input class="form-control" name="harga_jual" value="<?php echo $tampil['data']['barang_data_harga_jual']; ?>" />
+                                    <input class="form-control" name="harga_jual" value="<?php echo $tampil['data']['barang_data_harga_jual']; ?>">
                                 </div>
                             </div>
                         </div>
@@ -165,13 +165,13 @@ if (isset($_GET['id'])) {
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Tanggal Daftar</label>
-                                    <input class="form-control" type="date" name="tgl_daftar" id="tgl_daftar" value="<?php echo $tampil['data']['barang_data_tanggal']; ?>" />
+                                    <input class="form-control" type="date" name="tgl_daftar" id="tgl_daftar" value="<?php echo $tampil['data']['barang_data_tanggal']; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="gambar">Gambar</label>
-                                    <input type="file" class="file-control-file" name="gambar" id="gambar" />
+                                    <input type="file" class="file-control-file" name="gambar" id="gambar">
                                     <input type="text" name="fotoasal" value="<?= $tampil['data']['barang_data_gambar']; ?>" hidden="">
                                 </div>
                             </div>
