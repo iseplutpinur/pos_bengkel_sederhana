@@ -20,9 +20,9 @@ if (isset($_POST['simpan-tambah'])) {
     $namaFileBaru  = $user_username . "_" . uniqid() . '.' . $ekteksiGambar;
 
     $querybuilder = "INSERT INTO `tb_user`
-    (`id_user`, `id_level`, `user_username`, `user_password`, `user_email`, `user_nama`, `user_alamat`, `user_gender`, `user_tanggal_lahir`, `user_nik`, `user_no_telepon`, `user_foto`, `user_active`)
+    (`id_user`, `id_level`, `user_username`, `user_password`, `user_email`, `user_nama`, `user_alamat`, `user_gender`, `user_tanggal_lahir`, `user_nik`, `user_no_telepon`, `user_foto`,`user_tanggal_daftar`, `user_active`)
      VALUES 
-    (NULL,'$id_level','$user_username','$default_password','$user_email','$user_nama','$user_alamat','$user_gender','$user_tanggal_lahir','$user_nik','$user_no_telepon','$namaFileBaru','0')";
+    (NULL,'$id_level','$user_username','$default_password','$user_email','$user_nama','$user_alamat','$user_gender','$user_tanggal_lahir','$user_nik','$user_no_telepon', '$user_tanggal_daftar','$namaFileBaru','0')";
 
     $sql = $koneksi->query($querybuilder);
     if ($sql) {
@@ -40,7 +40,7 @@ if (isset($_POST['simpan-tambah'])) {
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Menu</h4>
+                <h4 class="modal-title">Tambah Pengguna</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

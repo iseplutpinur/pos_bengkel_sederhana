@@ -3,6 +3,8 @@ $password_asal    = "iseplutpi1008"; // password default
 $default_password = password_hash($password_asal, PASSWORD_DEFAULT);
 
 include 'tambah.php';
+include 'ubah.php';
+include 'hapus.php';
 
 if (isset($_GET['aksi']) && isset($_GET['id_user'])) {
     $id_user = $_GET['id_user'];
@@ -89,9 +91,9 @@ $data = query($querybuilder);
                                 <td style="white-space:nowrap;">
                                     <a href="<?= $_baseurl; ?>&aksi=detail&id_user=<?php echo $d['id_user']; ?>" class="btn btn-sm btn-primary"><i class="fa fa-info-circle"></i> Detail</a>
                                     <a href="<?= $_baseurl; ?>&aksi=reset_password&id_user=<?php echo $d['id_user']; ?>" class="btn btn-sm btn-secondary"><i class="fa fa-key"></i> Reset Password</a>
+                                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal-ubah" data-id_user="<?php echo $d['id_user']; ?>" data-id_level="<?php echo $d['id_level']; ?>" data-user_username="<?php echo $d['user_username']; ?>" data-user_email="<?php echo $d['user_email']; ?>" data-user_nama="<?php echo $d['user_nama']; ?>" data-user_alamat="<?php echo $d['user_alamat']; ?>" data-user_gender="<?php echo $d['user_gender']; ?>" data-user_tanggal_lahir="<?php echo $d['user_tanggal_lahir']; ?>" data-user_nik="<?php echo $d['user_nik']; ?>" data-user_no_telepon="<?php echo $d['user_no_telepon']; ?>" data-user_tanggal_daftar="<?php echo $d['user_tanggal_daftar']; ?>" data-user_foto_asal="<?php echo $d['user_foto']; ?>" onclick="ubahData(this)"><i class="fa fa-edit"></i> Ubah</button>
 
-                                    <a href="<?= $_baseurl; ?>&aksi=ubah&id_user=<?php echo $d['id']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Ubah</a>
-                                    <a onclick="return confirm('Anda yakin ingin menghapus?')" href="<?= $_baseurl; ?>&aksi=hapus&id=<?php echo $d['id']; ?>" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                    <bottom class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-hapus" data-id_user="<?= $d['id_user']; ?>" data-user_nama="<?= $d['user_nama']; ?>" data-user_foto="<?= $d['user_foto']; ?>" onclick="hapusData(this)"><i class="fa fa-trash"></i> Hapus</bottom>
                                 </td>
                             </tr>
                     <?php endforeach;
