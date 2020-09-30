@@ -1,6 +1,6 @@
 <?php
-if (isset($_SESSION['user']['id'])) :
-    $id_user       = $_SESSION['user']['id'];
+if (isset($_GET['id_user'])) :
+    $id_user       = $_GET['id_user'];
     $passlama      = true;
     $passbaru      = true;
     $pass          = [];
@@ -279,6 +279,11 @@ if (isset($_SESSION['user']['id'])) :
         </div>
     </div>
     </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            <a class="btn-secondary btn" href="<?= $_baseurl; ?>">Kembali</a>
+        </div>
     </div>
     <script type="text/javascript">
         function labelFileFoto(data) {
