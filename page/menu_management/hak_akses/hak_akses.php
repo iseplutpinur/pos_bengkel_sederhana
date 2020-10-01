@@ -52,8 +52,7 @@ if (isset($_GET['id'])) {
         <div class="row">
             <div class="col-lg">
                 <div class="container-fluid">
-                    <!-- <form action="<?= $_baseurl; ?>&aksi=gantiakses" method="post"> -->
-                    <form action="poscek.php" method="post">
+                    <form action="<?= $_baseurl; ?>&aksi=gantiakses" method="post">
                         <?php foreach ($temporary['menu'] as $_menu) : ?>
                             <div class="card card-primary card-outline d-flex justify-content-betwen">
                                 <div class="card-header">
