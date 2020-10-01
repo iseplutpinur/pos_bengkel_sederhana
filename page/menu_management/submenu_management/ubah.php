@@ -2,7 +2,7 @@
 if (isset($_POST['simpan-ubah'])) {
     $submenu_title = $_POST['submenu_title_ubah'];
     $file          = $_POST['submenu_file_ubah'];
-    $url           = $_POST['submenu_url_ubah'];
+    $url           = strtolower(str_replace(' ', '_', $_POST['submenu_url_ubah']));
     $id_menu       = $_POST['id_menu_ubah'];
     $id_submenu    = $_POST['id_submenu_ubah'];
 

@@ -2,7 +2,7 @@
 if (isset($_POST['simpan-tambah'])) {
     $submenu_title = $_POST['submenu_title'];
     $submenu_file  = $_POST['submenu_file'];
-    $submenu_url   = $_POST['submenu_url'];
+    $submenu_url   = strtolower(str_replace(' ', '_', $_POST['submenu_url']));
     $id_menu       = $_POST['id_menu'];
 
     $sql = $koneksi->query("INSERT INTO `tb_user_sub_menu` (`id_submenu`, `id_menu`, `submenu_title`, `submenu_url`, `submenu_file`) VALUES (NULL, '$id_menu', '$submenu_title', '$submenu_url', '$submenu_file')");

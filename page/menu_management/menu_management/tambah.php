@@ -2,7 +2,7 @@
 if (isset($_POST['simpan-tambah'])) {
     $nama = $_POST['menu_nama_tambah'];
     $icon = $_POST['menu_icon_tambah'];
-    $url  = $_POST['menu_url_tambah'];
+    $url  = strtolower(str_replace(' ', '_', $_POST['menu_url_tambah']));
 
     $sql  = $koneksi->query("INSERT INTO `tb_user_menu` (`id_menu`, `menu_title`, `menu_icon`, `menu_url`) VALUES (NULL, '$nama', '$icon', '$url')");
     if ($sql) {

@@ -3,7 +3,7 @@ if (isset($_POST['simpan-ubah'])) {
 	$id_ubah    = $_POST['id_menu_ubah'];
 	$menu_title = $_POST['menu_title_ubah'];
 	$menu_icon  = $_POST['menu_icon_ubah'];
-	$menu_url   = $_POST['menu_url_ubah'];
+	$menu_url   = strtolower(str_replace(' ', '_', $_POST['menu_url_ubah']));
 	$sql        = $koneksi->query("UPDATE `tb_user_menu` SET `menu_title` = '$menu_title', `menu_icon` = '$menu_icon', `menu_url` = '$menu_url' WHERE `tb_user_menu`.`id_menu` = '$id_ubah'");
 
 	if ($sql) {

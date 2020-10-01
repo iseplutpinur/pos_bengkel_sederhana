@@ -2,7 +2,7 @@
 if (isset($_POST['simpan-ubah'])) {
     $id_user             = $_POST['id_user_ubah'];
     $id_level            = $_POST['id_level_ubah'];
-    $user_username       = $_POST['user_username_ubah'];
+    $user_username       = strtolower(str_replace(' ', '_', $_POST['user_username_ubah']));
     $user_email          = $_POST['user_email_ubah'];
     $user_nama           = $_POST['user_nama_ubah'];
     $user_alamat         = $_POST['user_alamat_ubah'];
