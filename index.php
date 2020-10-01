@@ -4,7 +4,7 @@ include "config.php";
 include "functions.php";
 // ============================================================
 // cek apakah user sudah login altau belum
-// if (!ceklogin($_SESSION['user'])) header('Location: ./login.php');
+if (!ceklogin($_SESSION['user'])) header('Location:login.php');
 
 // Mengambil data untuk menu navigasi
 $menuactive = [
@@ -12,8 +12,8 @@ $menuactive = [
     'submenu' => ''
 ];
 
-$level        = $_SESSION['user']['level'];
-$menus        = query("SELECT * FROM tb_user_menu_access 
+$level  = $_SESSION['user']['id_level'];
+$menus  = query("SELECT * FROM tb_user_menu_access 
         INNER JOIN tb_user_menu 
         ON    tb_user_menu_access.id_menu  = tb_user_menu.id_menu
         WHERE tb_user_menu_access.id_level = '$level'
@@ -118,10 +118,10 @@ if ($menus) {
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="assets/images/user_profile/<?= $_SESSION['user']['foto']; ?>" class="img-circle elevation-2" alt="User Image">
+                        <img src="assets/images/user_profile/<?= $_SESSION['user']['user_foto']; ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block"><?= $_SESSION['user']['nama']; ?></a>
+                        <a href="#" class="d-block"><?= $_SESSION['user']['user_nama']; ?></a>
                     </div>
                 </div>
 

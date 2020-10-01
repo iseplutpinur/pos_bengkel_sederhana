@@ -39,13 +39,13 @@ $_settingApplication = query("SELECT * FROM tb_pengaturan");
 
 // tools ======================================================
 // Judul halaman
-$tools['page_title'] = "PT. Agung Automall Jambi";
+$tools['page_title'] = "Toko Mulya Utama Sejahtera";
 
 // default home page
 $display_page = "page/home.php";
 
 // default copyright
-$tools['copyright'] = 2020;
+$tools['copyright'] = date('yy');
 
 // mode Ubah dan Delete Manajemen user
 $tools['developer'] = true;
@@ -106,14 +106,17 @@ else $submenu = "";
 // mendefinisikan base url
 $_baseurl = '?page=' . $page . '&submenu=' . $submenu;
 
-function cekLogin($data = false)
+function cekLogin()
 {
-    if ($data == false) return false;
-    $id     = $data['id'];
-    $result = query("SELECT * FROM `tb_user` WHERE id='$id'");
-    if ($result) {
-        if ($data['user'] == $result[0]['username'] && $data['pass'] == $result[0]['password']) {
-            return true;
+    if (isset($_SESSION['user']['id_user']) && $_SESSION['user']['user_password']) {
+        $id_user = $_SESSION['user']['id_user'];
+        $result = query("SELECT `user_password`,`user_active` FROM `tb_user` WHERE id_user='$id_user'");
+        if ($result) {
+            if ($_SESSION['user']['user_password'] == $result[0]['user_password']) {
+                if ($result[0]['user_active']) {
+                    return true;
+                } else return false;
+            } else return false;
         } else return false;
     } else return false;
 }
