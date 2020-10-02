@@ -1,6 +1,6 @@
 <?php
-if (isset($_SESSION['user']['id'])) :
-    $id_user       = $_SESSION['user']['id'];
+if (isset($_SESSION['user']['id_user'])) :
+    $id_user       = $_SESSION['user']['id_user'];
     $passlama      = true;
     $passbaru      = true;
     $pass          = [];

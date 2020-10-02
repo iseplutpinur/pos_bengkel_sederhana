@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set("Asia/Jakarta");
 include "config.php";
 include "functions.php";
 // ============================================================
@@ -225,7 +226,7 @@ if ($menus) {
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            <section class="content-header" id="section-header-main">
                 <div class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
@@ -252,40 +253,35 @@ if ($menus) {
 
             <!-- Main content -->
             <section class="content">
-                <div class="container-fluid">
+                <div class="container-fluid p-0 m-0">
                     <!-- ================================================= -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- ================================================= -->
-                            <!-- Alert -->
-                            <div class="row" id="alert_display">
-                            </div>
-                            <script>
-                                function setAlert(alert_title = 'hide_alert', alert_content = "", alert_color = 'succes', alert_location = '#alert_display') {
-                                    if (alert_title == 'hide_alert') {
-                                        document.querySelector(alert_location).innerHTML = '';
-                                    } else {
-                                        document.querySelector(alert_location).innerHTML = `
-                                    <div class="col-md-12">
-                                    <div class="alert alert-${alert_color} alert-dismissible show" role="alert">
-                                    <strong>${alert_title}</strong>  ${alert_content}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    </div>
-                                    </div>
-                                    `;
-                                    }
-                                }
-                                <?php if ($_SESSION['alert']['show']) getAlert(); ?>
-                            </script>
-                            <!-- ================================================= -->
-                            <?php
-                            if (file_exists($display_page)) include $display_page;
-                            else include "page/error.php";
-                            ?>
-                        </div>
+                    <!-- Alert -->
+                    <div class="row" id="alert_display">
                     </div>
+                    <script>
+                        function setAlert(alert_title = 'hide_alert', alert_content = "", alert_color = 'succes', alert_location = '#alert_display') {
+                            if (alert_title == 'hide_alert') {
+                                document.querySelector(alert_location).innerHTML = '';
+                            } else {
+                                document.querySelector(alert_location).innerHTML = `
+                            <div class="col-md-12">
+                            <div class="alert alert-${alert_color} alert-dismissible show" role="alert">
+                            <strong>${alert_title}</strong>  ${alert_content}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            </div>
+                            `;
+                            }
+                        }
+                        <?php if ($_SESSION['alert']['show']) getAlert(); ?>
+                    </script>
+                    <!-- ================================================= -->
+                    <?php
+                    if (file_exists($display_page)) include $display_page;
+                    else include "page/error.php";
+                    ?>
                     <!-- ================================================= -->
                 </div>
                 <!--/. container-fluid -->
