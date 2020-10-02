@@ -2,7 +2,6 @@
 session_start();
 date_default_timezone_set("Asia/Jakarta");
 include "config.php";
-include "functions.php";
 // ============================================================
 // cek apakah user sudah login altau belum
 if (!ceklogin($_SESSION['user'])) header('Location:login.php');
