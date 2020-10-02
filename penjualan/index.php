@@ -1,7 +1,11 @@
 <?php
+// ==========================================================================================================
 session_start();
 date_default_timezone_set("Asia/Jakarta");
 include '../config.php';
+// ==========================================================================================================
+
+// ==========================================================================================================
 $_data = [
     'id_barang'   => '',
     'barcode'     => '',
@@ -11,7 +15,21 @@ $_data = [
     'stok'        => 0,
     'diskon'      => 0,
 ];
+// ==========================================================================================================
 
+
+// ==========================================================================================================
+$_belanja = ['no' => 0, 'total' => 0, 'bayar' => 0, 'kembali' => 0];
+if (isset($_POST['total-jumlah']) && ((isset($_POST['total-jumlah'])) ? $_POST['total-jumlah'] : 0) > 0) {
+    $_belanja['no'] = intval($_POST['total-jumlah']);
+    $_belanja['total'] = intval($_POST['total']);
+    $_belanja['bayar'] = intval($_POST['bayar']);
+    $_belanja['kembali'] = intval($_POST['kembali']);
+}
+// ==========================================================================================================
+
+
+// ==========================================================================================================
 if (isset($_POST['cari'])) {
     $_barcode = $_POST['barcode'];
     $result   = query("SELECT * FROM `tb_barang_data` WHERE `barang_data_kode` = '$_barcode'");
@@ -24,15 +42,19 @@ if (isset($_POST['cari'])) {
         $_data['diskon']      = $result[0]['barang_data_diskon'];
     }
 }
+// ==========================================================================================================
 
 
+// ==========================================================================================================
 if (isset($_POST['tambah'])) {
     if ($_POST['id_barang'] != "") {
-        $jumlah      = $_POST['jumlah'];
-        $id_barang   = $_POST['id_barang'];
-        $nama_barang = $_POST['nama_barang'];
-        $harga_jual  = $_POST['harga_jual'];
-        $stok_barang = $_POST['stok_barang'];
+        $jumlah        = $_POST['jumlah'];
+        $id_barang     = $_POST['id_barang'];
+        $diskon_barang = ($_POST['diskon_barang'] == "") ? 0 : $_POST['diskon_barang'];
+        $nama_barang   = $_POST['nama_barang'];
+        $harga_jual    = $_POST['harga_jual'];
+        $harga_asal    = $_POST['harga_asal'];
+        $stok_barang   = $_POST['stok_barang'];
 
         $result = query("SELECT * FROM `tb_barang_data` WHERE `barang_data_kode` = '$jumlah'");
         if ($result) {
@@ -41,20 +63,21 @@ if (isset($_POST['tambah'])) {
             $_data['nama_barang'] = $result[0]['barang_data_nama'];
             $_data['harga_asal']  = $result[0]['barang_data_harga_jual'];
             $_data['stok']        = $result[0]['barang_data_stok'];
+            $_data['diskon']      = $result[0]['barang_data_diskon'];
             $jumlah = 1;
         }
 
         if ($jumlah <= $stok_barang) {
-            $lama = query("SELECT `barang_keluar_data_jumlah` FROM `tb_barang_keluar_data_sementara` WHERE `id_barang_data` = '$id_barang'");
+            $lama = query("SELECT `barang_keluar_data_jumlah` FROM `tb_barang_keluar_data_sementara` WHERE `id_barang_data` = '$id_barang' AND `barang_data_diskon` = '$diskon_barang'");
             if ($lama) {
                 $total = $jumlah + $lama[0]['barang_keluar_data_jumlah'];
-                $querybuilder = "UPDATE `tb_barang_keluar_data_sementara` SET `barang_keluar_data_jumlah` = '$total' WHERE `id_barang_data` = '$id_barang'";
+                $querybuilder = "UPDATE `tb_barang_keluar_data_sementara` SET `barang_keluar_data_jumlah` = '$total' WHERE `id_barang_data` = '$id_barang' AND `barang_data_diskon` = '$diskon_barang'";
                 $koneksi->query($querybuilder);
             } else {
                 $querybuilder = "INSERT INTO `tb_barang_keluar_data_sementara`
-                (`id_barang_data`, `barang_keluar_data_nama`, `barang_keluar_data_jumlah`, `barang_keluar_data_harga`)
+                (`id_barang_data`, `barang_keluar_data_nama`, `barang_data_diskon`, `barang_keluar_data_jumlah`, `barang_keluar_data_harga`, `barang_keluar_data_harga_asal`)
                 VALUES
-                ('$id_barang', '$nama_barang', '$jumlah', '$harga_jual')";
+                ('$id_barang', '$nama_barang', '$diskon_barang', '$jumlah', '$harga_jual', '$harga_asal')";
                 $koneksi->query($querybuilder);
             }
         } else {
@@ -62,20 +85,21 @@ if (isset($_POST['tambah'])) {
         }
     }
 }
-
+// ==========================================================================================================
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Penjualan</title>
     <link rel="stylesheet" href="assets/bootstrap-4.4.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
 </head>
 
 <body>
+    <!-- ================================================================================================ -->
+    <!-- Header page -->
     <div class="container-fluid pt-3">
         <div class="row" id="alert_display"></div>
     </div>
@@ -85,14 +109,14 @@ if (isset($_POST['tambah'])) {
                 document.querySelector(alert_location).innerHTML = '';
             } else {
                 document.querySelector(alert_location).innerHTML = `
-                    <div class="col-md-12">
-                    <div class="alert alert-${alert_color} alert-dismissible show" role="alert">
-                    <strong>${alert_title}</strong>  ${alert_content}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    </div>
+                <div class="col-md-12">
+                <div class="alert alert-${alert_color} alert-dismissible show" role="alert">
+                <strong>${alert_title}</strong>  ${alert_content}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                </div>
                 `;
             }
         }
@@ -103,6 +127,10 @@ if (isset($_POST['tambah'])) {
             <div class="col-lg"><a href="reset.php" class="btn btn-danger btn-md btn-block font-weight-bold" id="btn_transaksi_baru">Transaksi Baru <i class="fas fa-shopping-cart"></i><i class="fas fa-shopping-cart"></i><i class="fas fa-shopping-cart"></i></a></div>
         </div>
     </div>
+    <!-- ================================================================================================ -->
+
+    <!-- ================================================================================================ -->
+    <!-- Header main -->
     <div class="container-fluid pt-3">
         <div class="row">
             <div class="col-md-7 py-2">
@@ -157,14 +185,11 @@ if (isset($_POST['tambah'])) {
             </div>
         </div>
     </div>
-
-
-
     <hr>
+    <!-- ================================================================================================ -->
 
-
-
-
+    <!-- ================================================================================================ -->
+    <!-- Hasil pencarian data barang berdasarkan barcode  -->
     <form method="post">
         <table style="margin:auto; width:98%;">
             <tr>
@@ -192,9 +217,9 @@ if (isset($_POST['tambah'])) {
                     <div class="form-group">
                         <input type="number" id="stok_barang" name="stok_barang" value="<?= $_data['stok']; ?>" hidden="">
                         <?php if ($_data['diskon'] == 0) : ?>
-                            <input type="number" class="form-control form-control-sm" id="diskon_barang" name="diskon_barang" readonly="">
+                            <input type="number" step="0.01" class="form-control form-control-sm" id="diskon_barang" name="diskon_barang" readonly="">
                         <?php else : ?>
-                            <input type="number" class="form-control form-control-sm" id="diskon_barang" name="diskon_barang" value="<?= $_data['diskon']; ?>" onkeyup="diskonUbah()" onclick="diskonUbah()" max="100" min="0">
+                            <input type="number" step="0.01" class="form-control form-control-sm" id="diskon_barang" name="diskon_barang" value="<?= $_data['diskon']; ?>" onkeyup="diskonUbah()" onclick="diskonUbah()" max="100" min="0">
                         <?php endif; ?>
                     </div>
                 </td>
@@ -206,9 +231,9 @@ if (isset($_POST['tambah'])) {
                 <td>
                     <div class="form-group">
                         <?php if ($_data['id_barang'] == '') : ?>
-                            <input type="number" class="form-control form-control-sm" id="harga_jual" name="harga_jual" readonly="">
+                            <input type="number" step="0.01" class="form-control form-control-sm" id="harga_jual" name="harga_jual" readonly="">
                         <?php else : ?>
-                            <input type="number" class="form-control form-control-sm" id="harga_jual" name="harga_jual" value="<?= $_data['harga_asal'] - (($_data['harga_asal'] / 100) * $_data['diskon']); ?>" onkeyup="hargaJualUbah()" onclick="hargaJualUbah()" min="0" max="<?= $_data['harga_asal']; ?>">
+                            <input type="number" step="0.01" class="form-control form-control-sm" id="harga_jual" name="harga_jual" value="<?= $_data['harga_asal'] - (($_data['harga_asal'] / 100) * $_data['diskon']); ?>" onkeyup="hargaJualUbah()" onclick="hargaJualUbah()" min="0" max="<?= $_data['harga_asal']; ?>">
                         <?php endif; ?>
                     </div>
                 </td>
@@ -230,17 +255,21 @@ if (isset($_POST['tambah'])) {
             </tr>
         </table>
     </form>
+    <!-- ================================================================================================ -->
 
-
+    <!-- ================================================================================================ -->
+    <!-- Hasil scaner sebelum menjadi resi -->
     <form method="post">
-        <table class="table" style="width:98%; margin:auto">
+        <table class="table table-hover table-striped" style="width:98%; margin:auto">
             <thead>
                 <tr>
                     <th class="py-1" width="20px">No</th>
                     <th class="py-1">Nama Barang</th>
-                    <th class="py-1 text-right">Harga Barang</th>
+                    <th class="py-1 text-right" width="50px">Diskon</th>
+                    <th class="py-1 text-right" width="200px">Harga Barang</th>
                     <th class="py-1" width="50px">Jumlah</th>
                     <th class="py-1 text-right">Total Harga</th>
+                    <th class="py-1 text-center" width="100px">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -252,9 +281,13 @@ if (isset($_POST['tambah'])) {
                         <tr>
                             <td class="py-1"><?php echo ++$no; ?></td>
                             <td class="py-1"><?php echo $struk['barang_keluar_data_nama']; ?></td>
+                            <td class="py-1 text-right"><?php echo ($struk['barang_data_diskon'] < 1) ? "" : $struk['barang_data_diskon'] . "%"; ?></td>
                             <td class="py-1 text-right"><?php echo 'Rp. ' . number_format($struk['barang_keluar_data_harga'], 0, ',', '.'); ?></td>
                             <td class="py-1 text-right"><?php echo $struk['barang_keluar_data_jumlah']; ?></td>
                             <td class="py-1 text-right"><?php echo 'Rp. ' . number_format($struk['barang_keluar_data_harga'] * $struk['barang_keluar_data_jumlah'], 0, ',', '.'); ?></td>
+                            <td class="py-1 text-center">
+                                <button class="btn btn-sm btn-danger" type="button" name="hapus-struk" onclick="hapusStruk('<?php echo $struk['id_barang_data']; ?>', '<?php echo $struk['barang_data_diskon']; ?>')">Hapus <i class="fas fa-trash"></i></button>
+                            </td>
                         </tr>
                 <?php
                         $_data['total_bayar'] += $struk['barang_keluar_data_harga'] * $struk['barang_keluar_data_jumlah'];
@@ -263,32 +296,38 @@ if (isset($_POST['tambah'])) {
 
             </tbody>
             <tfooter>
-                <tr>
+                <tr class="bg-white">
+                    <th class="py-1"></th>
                     <th class="py-1"></th>
                     <th class="py-1"></th>
                     <th class="py-1 text-right">Total Bayar</th>
                     <th class="py-1"></th>
-                    <th class="py-1 text-right"><?php echo 'Rp. ' . number_format($_data['total_bayar'], 0, ',', '.'); ?></th>
+                    <th class="py-1 text-right">
+                        <input type="text" name="total" value="<?php echo $_data['total_bayar']; ?>" hidden="">
+                        <input type="text" name="total-jumlah" value="<?php echo $no; ?>" hidden="">
+                        <?php echo 'Rp. ' . number_format($_data['total_bayar'], 0, ',', '.'); ?>
+                    </th>
+                    <th class="py-1"></th>
                 </tr>
-                <tr>
-                    <th colspan="2" class="py-1">
+                <tr class="bg-white">
+                    <th colspan="3" class="py-1">
                         <div class="form-group py-0 my-0">
                             <button class="btn btn-success btn-sm my-0  mr-5" name="cetak" type="submit"><i class="fas fa-print"></i> Cetak</button>
                             <button class="btn btn-danger btn-sm my-0" type="button" onclick="transaksiBaru()"><i class="fas fa-trash-alt"></i> Batal</button>
                         </div>
                     </th>
-                    <th colspan="3" class="py-1">
+                    <th colspan="4" class="py-1">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="font-weight-normal" for="bayar">Bayar:</label>
-                                    <input type="number" class="form-control form-control-sm my-0" id="bayar" name="bayar" value="0">
+                                    <input type="number" class="form-control form-control-sm my-0" id="bayar" name="bayar" value="<?= $_belanja['bayar']; ?>">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="font-weight-normal" for="kembali">Kembali:</label>
-                                    <input type="number" class="form-control form-control-sm my-0" id="kembali" name="kembali" value="0" readonly="">
+                                    <input type="number" class="form-control form-control-sm my-0" id="kembali" name="kembali" value="<?= $_belanja['kembali']; ?>" readonly="">
                                 </div>
                             </div>
                         </div>
@@ -298,15 +337,20 @@ if (isset($_POST['tambah'])) {
         </table>
     </form>
     <hr>
+    <!-- ================================================================================================ -->
 
-
+    <!-- ================================================================================================ -->
+    <!-- script plugin tambahan -->
     <script href="assets/uncomprees-jquery-3.4.1.js"></script>
     <script href="assets/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+    <!-- ================================================================================================ -->
+
+    <!-- ================================================================================================ -->
+    <!-- Script Secript Pendukung -->
     <script>
         document.querySelector('#barcode-input').focus();
         const totalbayar = '<?php echo $_data['total_bayar']; ?>';
         const harga_asal = '<?php echo $_data['harga_asal']; ?>';
-
 
         const hitungPembayaran = () => {
             let kembali = document.querySelector('#kembali');
@@ -363,10 +407,40 @@ if (isset($_POST['tambah'])) {
         function hargaJualUbah() {
             let diskon_barang = document.querySelector('#diskon_barang');
             let harga_jual = document.querySelector('input[name=harga_jual]');
+            const diskon = (Number(harga_asal) - Number(harga_jual.value)) * (100 / Number(harga_asal));
+            diskon_barang.value = diskon.toPrecision(1);
+            if (diskon_barang.readOnly) {
+                diskon_barang.removeAttribute('readonly');
+                diskon_barang.setAttribute('onclick', 'diskonUbah()');
+                diskon_barang.setAttribute('onkeyup', 'diskonUbah()');
+            }
+        }
 
-            diskon_barang.value = (Number(harga_asal) - Number(harga_jual.value)) * (100 / Number(harga_asal));
+        function hapusStruk(id, diskon) {
+            window.location.href = `hapus_transaksi.php?id_barang=${id}&diskon=${diskon}`;
         }
     </script>
+    <!-- ================================================================================================ -->
+
+    <!-- ================================================================================================ -->
+    <!-- Script pembantu untu print kwetansi -->
+    <?php
+    if ($_belanja['no'] > 0) {
+        if ($_belanja['bayar'] >= $_belanja['total']) {
+
+            echo '<iframe src="print_resi.php?bayar=' . $_belanja['bayar'] . '&kembali=' . $_belanja['kembali'] . '&" frameborder="0" allowfullscreen style="width:100%;height:50vh;"></iframe>';
+        } else {
+            echo "
+                <script>
+                const bayar_print = document.querySelector('#bayar');
+                 bayar_print.focus();
+                 bayar_print.select();
+                </script>
+            ";
+        }
+    }
+    ?>
+    <!-- ================================================================================================ -->
 </body>
 
 </html>
