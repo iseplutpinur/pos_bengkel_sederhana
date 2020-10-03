@@ -19,6 +19,12 @@ $_data = [
 
 
 // ==========================================================================================================
+// Nomor transaksi
+$_number_transaksi = query("SELECT MAX(`barang_keluar_nomor`) as `nomor` FROM `tb_barang_keluar` WHERE `barang_keluar_tanggal` = '2020-10-03'");
+// ==========================================================================================================
+
+
+// ==========================================================================================================
 $_belanja = ['no' => 0, 'total' => 0, 'bayar' => 0, 'kembali' => 0];
 if (isset($_POST['total-jumlah']) && ((isset($_POST['total-jumlah'])) ? $_POST['total-jumlah'] : 0) > 0) {
     $_belanja['no'] = intval($_POST['total-jumlah']);
@@ -98,6 +104,11 @@ if (isset($_POST['tambah'])) {
 </head>
 
 <body>
+    <?php if ($_belanja['no'] > 0) {
+        if ($_belanja['bayar'] >= $_belanja['total']) {
+            echo '<div hidden="">';
+        }
+    } ?>
     <!-- ================================================================================================ -->
     <!-- Header page -->
     <div class="container-fluid pt-3">
@@ -408,7 +419,8 @@ if (isset($_POST['tambah'])) {
             let diskon_barang = document.querySelector('#diskon_barang');
             let harga_jual = document.querySelector('input[name=harga_jual]');
             const diskon = (Number(harga_asal) - Number(harga_jual.value)) * (100 / Number(harga_asal));
-            diskon_barang.value = diskon.toPrecision(1);
+            diskon_barang.value = diskon;
+
             if (diskon_barang.readOnly) {
                 diskon_barang.removeAttribute('readonly');
                 diskon_barang.setAttribute('onclick', 'diskonUbah()');
@@ -427,7 +439,13 @@ if (isset($_POST['tambah'])) {
     <?php
     if ($_belanja['no'] > 0) {
         if ($_belanja['bayar'] >= $_belanja['total']) {
-
+            echo '
+            </div>
+            <div class="container-fluid  pt-3">
+                <div class="row">
+                    <div class="col-lg"><a href="reset.php" class="btn btn-danger btn-md btn-block font-weight-bold" id="btn_transaksi_baru">Transaksi Baru <i class="fas fa-shopping-cart"></i><i class="fas fa-shopping-cart"></i><i class="fas fa-shopping-cart"></i></a></div>
+                </div>
+            </div>';
             echo '<iframe src="print_resi.php?bayar=' . $_belanja['bayar'] . '&kembali=' . $_belanja['kembali'] . '&" frameborder="0" allowfullscreen style="width:100%;height:50vh;"></iframe>';
         } else {
             echo "

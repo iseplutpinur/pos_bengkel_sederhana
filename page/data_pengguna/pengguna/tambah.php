@@ -22,7 +22,7 @@ if (isset($_POST['simpan-tambah'])) {
     $querybuilder = "INSERT INTO `tb_user`
     (`id_user`, `id_level`, `user_username`, `user_password`, `user_email`, `user_nama`, `user_alamat`, `user_gender`, `user_tanggal_lahir`, `user_nik`, `user_no_telepon`, `user_foto`,`user_tanggal_daftar`, `user_active`)
      VALUES 
-    (NULL,'$id_level','$user_username','$default_password','$user_email','$user_nama','$user_alamat','$user_gender','$user_tanggal_lahir','$user_nik','$user_no_telepon', '$user_tanggal_daftar','$namaFileBaru','0')";
+    (NULL,'$id_level','$user_username','$default_password','$user_email','$user_nama','$user_alamat','$user_gender','$user_tanggal_lahir','$user_nik','$user_no_telepon', '$namaFileBaru', '$user_tanggal_daftar','0')";
 
     $sql = $koneksi->query($querybuilder);
     if ($sql) {
@@ -99,10 +99,10 @@ if (isset($_POST['simpan-tambah'])) {
                             <div class="col-lg-4">
                                 <label for="user_foto_tambah">Foto Profile</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="user_foto_tambah" name="user_foto_tambah" accept="image/*" onchange="labelFileFoto(this)">
+                                    <input type="file" class="custom-file-input" id="user_foto_tambah" name="user_foto_tambah" accept="image/*" onchange="labelFileFotoTambah(this)">
                                     <label class="custom-file-label" for="user_foto_tambah" id="label_user_foto_tambah">Pilih Foto</label>
                                     <script>
-                                        function labelFileFoto(data) {
+                                        function labelFileFotoTambah(data) {
                                             // manual soalnya labelnya gk berfungsi
                                             document.querySelector('#label_user_foto_tambah').innerText = data.files[0].name;
                                         }
