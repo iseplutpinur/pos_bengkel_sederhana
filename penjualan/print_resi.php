@@ -6,20 +6,68 @@ include '../config.php';
 if (!isset($_SESSION['user'])) {
     echo "<h1 style='text-align:center;'>
     Sistem Bermasalah silahkan untuk langsung logout terlebih dahulu kemudian login lagi,<br>
-    Tombol <b style='color: #f00;'>Transaksi Baru</b> Jangan Ditekan..!,<br>
+    Tombol <b style = 'color: #f00;'>Transaksi Baru</b> Jangan Ditekan..!, <br>
     mohon maaf untuk ketidaknyamanannya Terima kasih..</h1>";
     die;
 }
 $result = query("SELECT * FROM `tb_barang_keluar_data_sementara`");
-$data = ($result) ? $result : [];
-$total = ['qty' => 0, 'total_harga' => 0, 'total_diskon' => 0];
+$data   = ($result) ? $result : [];
+$total  = ['qty' => 0, 'total_harga' => 0, 'total_diskon' => 0];
 
-$_heder = [
-    'no_trx'  => date('yymdhis'),
-    'tanggal' => date('yy-m-d'),
-    'kasir'   => $_SESSION['user']['user_nama'],
-    'id_user' => $_SESSION['user']['id_user']
-];
+$no_trx  = $_GET['no_trx'];
+$bnomor  = $_GET['no'];
+$tanggal = date('yy-m-d');
+$jam     = date('h:i:s');
+$kasir   = $_SESSION['user']['user_nama'];
+$id_user = $_SESSION['user']['id_user'];
+
+// ==========================================================================================================
+// Simpan data transaksi
+$querybuilder = "INSERT INTO `tb_barang_keluar`
+    (`id_barang_keluar`, `id_user`, `barang_keluar_kode_transaksi`, `barang_keluar_nomor`, `barang_keluar_tanggal`, `barang_data_waktu`)
+    VALUES 
+    (NULL, '$id_user', '$no_trx', '$bnomor', '$tanggal', '$jam')";
+$koneksi->query($querybuilder);
+// cek apakah query berhasil atau tidak
+if (mysqli_errno($koneksi) != 0) {
+    echo "<h1 style='text-align:center;'>
+    Sistem Bermasalah silahkan untuk langsung hubungi petugas IT atau petugas terkait,<br>
+    Tombol <b style = 'color: #f00;'>Transaksi Baru</b> Jangan Ditekan..!, <br>
+    mohon maaf untuk ketidaknyamanannya Terima kasih..</h1>";
+    die;
+};
+
+// mengambil id barang keluar untuk list baraung yang dibeli
+$id_barang_keluar = query("SELECT MAX(`id_barang_keluar`) as `id` FROM `tb_barang_keluar`");
+$id_barang_keluar = ($id_barang_keluar) ? $id_barang_keluar[0]['id'] : 1;
+
+
+$querybuilder = "";
+foreach ($result as $barang) {
+    $id_barang_data                = $barang['id_barang_data'];
+    $barang_data_diskon            = $barang['barang_data_diskon'];
+    $barang_keluar_data_harga      = $barang['barang_keluar_data_harga'];
+    $barang_keluar_data_jumlah     = $barang['barang_keluar_data_jumlah'];
+    $barang_keluar_data_harga_asal = $barang['barang_keluar_data_harga_asal'];
+    if ($querybuilder == "") {
+        $querybuilder .= "INSERT INTO `tb_barang_keluar_data` 
+            (`id_barang_keluar`, `id_barang_data`, `barang_keluar_data_diskon`, `barang_keluar_data_jumlah`, `barang_keluar_data_harga`, `barang_keluar_data_harga_asal`) 
+            VALUES 
+            ('$id_barang_keluar', '$id_barang_data', '$barang_data_diskon', '$barang_keluar_data_jumlah', '$barang_keluar_data_harga', '$barang_keluar_data_harga_asal')";
+    } else $querybuilder .= ", ('$id_barang_keluar', '$id_barang_data', '$barang_data_diskon', '$barang_keluar_data_jumlah', '$barang_keluar_data_harga', '$barang_keluar_data_harga_asal')";
+}
+
+$koneksi->query($querybuilder);
+// cek apakah query berhasil atau tidak
+if (mysqli_errno($koneksi) != 0) {
+    echo "<h1 style='text-align:center;'>
+    Sistem Bermasalah silahkan untuk langsung hubungi petugas IT atau petugas terkait,<br>
+    Tombol <b style = 'color: #f00;'>Transaksi Baru</b> Jangan Ditekan..!, <br>
+    mohon maaf untuk ketidaknyamanannya Terima kasih..</h1>";
+    die;
+};
+
+$koneksi->query("TRUNCATE `db_toko_mulya_utama_sejahtera`.`tb_barang_keluar_data_sementara`");
 // ==========================================================================================================
 ?>
 
@@ -105,18 +153,18 @@ $_heder = [
         <table>
             <tr>
                 <td>No Trx</td>
-                <td>:</td>
-                <td>TR<?php echo date('yymdhisu'); ?></td>
+                <td>: </td>
+                <td><?php echo $no_trx ?></td>
             </tr>
             <tr>
                 <td>Tanggal</td>
-                <td>:</td>
-                <td><?php echo date('yy-m-d  h:i'); ?></td>
+                <td>: </td>
+                <td><?php echo $tanggal . " " . $jam; ?></td>
             </tr>
             <tr>
                 <td>Kasir</td>
-                <td>:</td>
-                <td><?php echo $_SESSION['user']['user_nama']; ?></td>
+                <td>: </td>
+                <td><?php echo $kasir; ?></td>
             </tr>
         </table>
         <hr>
@@ -129,24 +177,35 @@ $_heder = [
             </tr>
             <?php foreach ($data as $d) :
                 $total['qty']++;
-                $total['total_harga'] += ($d['barang_keluar_data_harga_asal'] * $d['barang_keluar_data_jumlah']);
+                $total['total_harga']  += ($d['barang_keluar_data_harga_asal'] * $d['barang_keluar_data_jumlah']);
                 $total['total_diskon'] += ($d['barang_keluar_data_jumlah'] * abs($d['barang_keluar_data_harga'] - $d['barang_keluar_data_harga_asal']));
             ?>
                 <tr>
-                    <td colspan="4"><?= $d['barang_keluar_data_nama']; ?></td>
+                    <td colspan="4">
+                        <?= $d['barang_keluar_data_nama']; ?>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="text-align:right"><?= $d['barang_keluar_data_jumlah']; ?></td>
-                    <td style="text-align:right"><?= number_format($d['barang_keluar_data_harga_asal'], 0, ',', '.'); ?></td>
-                    <td style="text-align:right"><?= number_format($d['barang_keluar_data_harga_asal'] * $d['barang_keluar_data_jumlah'], 0, ',', '.'); ?></td>
+                    <td style="text-align:right">
+                        <?= $d['barang_keluar_data_jumlah']; ?>
+                    </td>
+                    <td style="text-align:right">
+                        <?= number_format($d['barang_keluar_data_harga_asal'], 0, ',', '.'); ?>
+                    </td>
+                    <td style="text-align:right">
+                        <?= number_format($d['barang_keluar_data_harga_asal'] * $d['barang_keluar_data_jumlah'], 0, ',', '.'); ?>
+                    </td>
                 </tr>
                 <?php if ($d['barang_data_diskon'] > 0) : ?>
                     <tr>
                         <td></td>
-                        <td>Diskon:</td>
-                        <td style="text-align:right"><?= $d['barang_data_diskon']; ?>%</td>
-                        <td style="text-align:right">-<?= number_format($d['barang_keluar_data_jumlah'] * abs($d['barang_keluar_data_harga'] - $d['barang_keluar_data_harga_asal']), 0, ',', '.'); ?></td>
+                        <td>Diskon: </td>
+                        <td style="text-align:right">
+                            <?= $d['barang_data_diskon']; ?>%</td>
+                        <td style="text-align:right">-
+                            <?= number_format($d['barang_keluar_data_jumlah'] * abs($d['barang_keluar_data_harga'] - $d['barang_keluar_data_harga_asal']), 0, ',', '.'); ?>
+                        </td>
                     </tr>
                 <?php endif; ?>
             <?php endforeach; ?>
@@ -156,36 +215,48 @@ $_heder = [
                 </td>
             </tr>
             <tr>
-                <td>Total:</td>
-                <td style="text-align:right"><?= $total['qty']; ?></td>
+                <td>Total: </td>
+                <td style="text-align:right">
+                    <?= $total['qty']; ?>
+                </td>
                 <td></td>
-                <td style="text-align:right"><?= number_format($total['total_harga'], 0, ',', '.'); ?></td>
+                <td style="text-align:right">
+                    <?= number_format($total['total_harga'], 0, ',', '.'); ?>
+                </td>
             </tr>
             <?php if ($total['total_diskon'] != 0) : ?>
                 <tr>
-                    <td>Diskon:</td>
+                    <td>Diskon: </td>
                     <td></td>
                     <td></td>
-                    <td style="text-align:right">-<?= number_format($total['total_diskon'], 0, ',', '.'); ?></td>
+                    <td style="text-align:right">-
+                        <?= number_format($total['total_diskon'], 0, ',', '.'); ?>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Total Harga:</td>
+                    <td>Total Harga: </td>
                     <td></td>
                     <td></td>
-                    <td style="text-align:right"><?= number_format($total['total_harga'] - $total['total_diskon'], 0, ',', '.'); ?></td>
+                    <td style="text-align:right">
+                        <?= number_format($total['total_harga'] - $total['total_diskon'], 0, ',', '.'); ?>
+                    </td>
                 </tr>
             <?php endif; ?>
             <tr>
-                <td>Tunai:</td>
+                <td>Tunai: </td>
                 <td></td>
                 <td></td>
-                <td style="text-align:right"><?= number_format($_GET['bayar'], 0, ',', '.'); ?></td>
+                <td style="text-align:right">
+                    <?= number_format($_GET['bayar'], 0, ',', '.'); ?>
+                </td>
             </tr>
             <tr>
-                <td>Kembali:</td>
+                <td>Kembali: </td>
                 <td></td>
                 <td></td>
-                <td style="text-align:right"><?= number_format($_GET['kembali'], 0, ',', '.'); ?></td>
+                <td style="text-align:right">
+                    <?= number_format($_GET['kembali'], 0, ',', '.'); ?>
+                </td>
             </tr>
         </table>
         <hr>

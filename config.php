@@ -3,7 +3,7 @@
 // ===========================================================
 
 // host database
-$database_host = "127.0.0.1:3307";
+$database_host = "127.0.0.1:3306";
 // username database
 $database_user = "root";
 // user password database

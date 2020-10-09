@@ -5,6 +5,18 @@ date_default_timezone_set("Asia/Jakarta");
 include '../config.php';
 // ==========================================================================================================
 
+
+// ==========================================================================================================
+// Nomor transaksi
+$_tanggal = date('yy-m-d');
+$_no_trx['trx']   = query("SELECT MAX(`barang_keluar_nomor`) AS `nomor` FROM  `tb_barang_keluar` WHERE `barang_keluar_tanggal` = '$_tanggal'");
+$_no_trx['trx']   = ($_no_trx['trx']) ? $_no_trx['trx'][0] : false;
+$_no_trx['trx']   = ($_no_trx['trx']['nomor'] == null) ? (int) 1 : (int) ++$_no_trx['trx']['nomor'];
+$_no_trx['nomor'] = $_no_trx['trx'];
+$_no_trx['trx']   = substr("0000" . $_no_trx['trx'], -4, 4);
+$_no_trx['trx']   = "TR" . date('yymmd') . $_no_trx['trx'];
+// ==========================================================================================================
+
 // ==========================================================================================================
 $_data = [
     'id_barang'   => '',
@@ -151,7 +163,7 @@ if (isset($_POST['tambah'])) {
                     </div>
                     <div class="col-lg-10">
                         <div class="input-group">
-                            <input type="text" class="form-control form-control-sm" name="kode_transaksi" id="kode_transaksi" readonly="" value="TR<?php echo date('yymdhis'); ?>">
+                            <input type="text" class="form-control form-control-sm" name="kode_transaksi" id="kode_transaksi" readonly="" value="<?php echo $_no_trx['trx']; ?>">
                         </div>
                     </div>
                 </div>
@@ -446,7 +458,7 @@ if (isset($_POST['tambah'])) {
                     <div class="col-lg"><a href="reset.php" class="btn btn-danger btn-md btn-block font-weight-bold" id="btn_transaksi_baru">Transaksi Baru <i class="fas fa-shopping-cart"></i><i class="fas fa-shopping-cart"></i><i class="fas fa-shopping-cart"></i></a></div>
                 </div>
             </div>';
-            echo '<iframe src="print_resi.php?bayar=' . $_belanja['bayar'] . '&kembali=' . $_belanja['kembali'] . '&" frameborder="0" allowfullscreen style="width:100%;height:50vh;"></iframe>';
+            echo '<iframe src="print_resi.php?bayar=' . $_belanja['bayar'] . '&kembali=' . $_belanja['kembali'] . '&no_trx=' . $_no_trx["trx"] . '&no=' . $_no_trx["nomor"] . '" frameborder="0" allowfullscreen style="width:100%;height:50vh;"></iframe>';
         } else {
             echo "
                 <script>
