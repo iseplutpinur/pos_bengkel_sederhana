@@ -29,6 +29,7 @@ $querybuilder = "INSERT INTO `tb_barang_keluar`
     (NULL, '$id_user', '$no_trx', '$bnomor', '$tanggal', '$jam')";
 $koneksi->query($querybuilder);
 // cek apakah query berhasil atau tidak
+
 if (mysqli_errno($koneksi) != 0) {
     echo "<h1 style='text-align:center;'>
     Sistem Bermasalah silahkan untuk langsung hubungi petugas IT atau petugas terkait,<br>

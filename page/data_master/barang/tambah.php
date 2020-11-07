@@ -35,105 +35,89 @@ if (isset($_POST['simpan'])) {
 $kategori = query("SELECT * FROM tb_barang_kategori");
 ?>
 
-<script type="text/javascript">
-    function validasi(form) {
-        if (form.nama_barang.value == "") {
-            setAlert('Peringatan..!', "Nama Barang Tidak Boleh Kosong", 'danger');
-            form.nama_barang.focus();
-            return (false);
-        }
-
-        if (form.harga_beli.value == "") {
-            setAlert('Peringatan..!', "Harga Beli Tidak Boleh Kosong", 'danger');
-            form.harga_beli.focus();
-            return (false);
-        }
-
-        if (form.harga_jual.value <= form.harga_beli.value) {
-            setAlert('Peringatan..!', "Harga jual harus lebih tinggi dari harga beli", 'danger');
-            form.harga_jual.focus();
-            return (false);
-        }
-
-        if (form.harga_jual.value == "") {
-            setAlert('Peringatan..!', "Harga Jual Tidak Boleh Kosong", 'danger');
-            form.harga_jual.focus();
-            return (false);
-        }
-        return (true);
-    }
-</script>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Tambah Data barang
+<div class="card">
+    <div class="card-header d-flex justify-content-betwen">
+        <div class="p-2 flex-fill bd-highlight">
+            <h3 class="card-title">Tambah <?php echo $menuactive['submenu']; ?></h3>
+        </div>
     </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <form method="POST" enctype="multipart/form-data" onsubmit="return validasi(this)">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Nama barang</label>
-                                    <input class="form-control" name="nama_barang" id="nama_barang" required="">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Harga Beli</label>
-                                    <input class="form-control" type="number" name="harga_beli" id="harga_beli" required="">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Harga Jual</label>
-                                    <input class="form-control is-invalid" type="number" name="harga_jual" id="harga_jual" required="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Kode Barang</label>
-                                    <input class="form-control" name="kode_barang" id="kode_barang" required="" readonly="" value="<?= date("yy-m-d-") . uniqid(); ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Kategori</label>
-                                    <select class="form-control" name="kategori">
-                                        <?php if ($kategori) {
-                                            foreach ($kategori as $k) {
-                                                echo "<option value='$k[id_barang_kategori]'>$k[barang_kategori_nama]</option>";
-                                            }
-                                        } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Tanggal Daftar</label>
-                                    <input class="form-control" readonly="" type="date" name="tgl_daftar" id="tgl_daftar" value="<?= date("yy-m-d"); ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="gambar">Gambar</label>
-                                    <input type="file" class="file-control-file" name="gambar" id="gambar" required="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
-                                <a href="<?php echo $_baseurl; ?>" class="btn btn-success">Kembali</a>
-                            </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <form method="POST">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nama Barang</label>
+                            <input class="form-control" name="nama_barang" id="nama_barang" required="">
                         </div>
                     </div>
-                </form>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Harga Beli</label>
+                            <input class="form-control" name="harga_beli" id="harga_beli" required="" type="number">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Harga Jual</label>
+                            <input class="form-control" name="harga_jual" id="harga_jual" required="" type="number">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select class="form-control" name="kategori">
+                                <?php if ($kategori) {
+                                    foreach ($kategori as $k) {
+                                        echo "<option value='$k[id_barang_kategori]'>$k[barang_kategori_nama]</option>";
+                                    }
+                                } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Tanggal</label>
+                            <input class="form-control" type="date" name="harga_beli" id="harga_beli" required="" value="<?php echo date("Y-m-d"); ?>">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Stok</label>
+                            <input class="form-control" name="stok" id="stok" required="" type="number">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Warna</label>
+                            <input class="form-control" name="warna" id="warna" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Diskon</label>
+                            <input class="form-control" name="warna" id="warna" required="" type="number">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Kode</label>
+                            <input class="form-control" name="kode" id="kode" required="" type="number">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
+                        <a href="<?php echo $_baseurl; ?>" class="btn btn-success">Kembali</a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
