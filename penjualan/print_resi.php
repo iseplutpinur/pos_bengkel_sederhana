@@ -49,6 +49,21 @@ foreach ($result as $barang) {
     $barang_keluar_data_harga      = $barang['barang_keluar_data_harga'];
     $barang_keluar_data_jumlah     = $barang['barang_keluar_data_jumlah'];
     $barang_keluar_data_harga_asal = $barang['barang_keluar_data_harga_asal'];
+
+    // mengurangi stok yang ada
+    $_stok = query("SELECT `barang_data_stok` FROM `tb_barang_data` WHERE `id_barang_data` = '$id_barang_data'");
+    $_stok = $_stok[0]['barang_data_stok'] - $barang_keluar_data_jumlah;
+    $koneksi->query("UPDATE `tb_barang_data` SET `barang_data_stok` = '$_stok' WHERE `tb_barang_data`.`id_barang_data` = '$id_barang_data'");
+    if (mysqli_errno($koneksi) != 0) {
+        echo "<h1 style='text-align:center;'>
+        Sistem Bermasalah silahkan untuk langsung hubungi petugas IT atau petugas terkait,<br>
+        Tombol <b style = 'color: #f00;'>Transaksi Baru</b> Jangan Ditekan..!, <br>
+        mohon maaf untuk ketidaknyamanannya Terima kasih..</h1>";
+        die;
+    };
+
+
+    // memasukan data ke tabel barang keluar data 
     if ($querybuilder == "") {
         $querybuilder .= "INSERT INTO `tb_barang_keluar_data` 
             (`id_barang_keluar`, `id_barang_data`, `barang_keluar_data_diskon`, `barang_keluar_data_jumlah`, `barang_keluar_data_harga`, `barang_keluar_data_harga_asal`) 
@@ -66,6 +81,7 @@ if (mysqli_errno($koneksi) != 0) {
     mohon maaf untuk ketidaknyamanannya Terima kasih..</h1>";
     die;
 };
+
 
 $koneksi->query("TRUNCATE `db_toko_mulya_utama_sejahtera`.`tb_barang_keluar_data_sementara`");
 // ==========================================================================================================

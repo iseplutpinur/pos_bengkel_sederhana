@@ -88,15 +88,32 @@ if (isset($_POST['tambah'])) {
         if ($jumlah <= $stok_barang) {
             $lama = query("SELECT `barang_keluar_data_jumlah` FROM `tb_barang_keluar_data_sementara` WHERE `id_barang_data` = '$id_barang' AND `barang_data_diskon` = '$diskon_barang'");
             if ($lama) {
-                $total = $jumlah + $lama[0]['barang_keluar_data_jumlah'];
-                $querybuilder = "UPDATE `tb_barang_keluar_data_sementara` SET `barang_keluar_data_jumlah` = '$total' WHERE `id_barang_data` = '$id_barang' AND `barang_data_diskon` = '$diskon_barang'";
-                $koneksi->query($querybuilder);
+                $total_semua = 0;
+                $lama_total = query("SELECT `barang_keluar_data_jumlah` FROM `tb_barang_keluar_data_sementara` WHERE `id_barang_data` = '$id_barang'");
+                foreach ($lama_total as $l) $total_semua += $l['barang_keluar_data_jumlah'];
+
+                $total = $jumlah + $total_semua;
+                if ($total <= $stok_barang) {
+                    $querybuilder = "UPDATE `tb_barang_keluar_data_sementara` SET `barang_keluar_data_jumlah` = '$total' WHERE `id_barang_data` = '$id_barang' AND `barang_data_diskon` = '$diskon_barang'";
+                    $koneksi->query($querybuilder);
+                } else {
+                    setAlert('Peringatan ', 'Jumlah barang tidak boleh melebihi stok..', 'danger');
+                }
             } else {
-                $querybuilder = "INSERT INTO `tb_barang_keluar_data_sementara`
-                (`id_barang_data`, `barang_keluar_data_nama`, `barang_data_diskon`, `barang_keluar_data_jumlah`, `barang_keluar_data_harga`, `barang_keluar_data_harga_asal`)
-                VALUES
-                ('$id_barang', '$nama_barang', '$diskon_barang', '$jumlah', '$harga_jual', '$harga_asal')";
-                $koneksi->query($querybuilder);
+                $total_semua = $jumlah;
+                $lama_total = query("SELECT `barang_keluar_data_jumlah` FROM `tb_barang_keluar_data_sementara` WHERE `id_barang_data` = '$id_barang'");
+                if ($lama_total) {
+                    foreach ($lama_total as $l) $total_semua += $l['barang_keluar_data_jumlah'];
+                }
+                if ($total_semua <= $stok_barang) {
+                    $querybuilder = "INSERT INTO `tb_barang_keluar_data_sementara`
+                    (`id_barang_data`, `barang_keluar_data_nama`, `barang_data_diskon`, `barang_keluar_data_jumlah`, `barang_keluar_data_harga`, `barang_keluar_data_harga_asal`)
+                    VALUES
+                    ('$id_barang', '$nama_barang', '$diskon_barang', '$jumlah', '$harga_jual', '$harga_asal')";
+                    $koneksi->query($querybuilder);
+                } else {
+                    setAlert('Peringatan ', 'Jumlah barang tidak boleh melebihi stok..', 'danger');
+                }
             }
         } else {
             setAlert('Peringatan ', 'Jumlah barang tidak boleh melebihi stok..', 'danger');
